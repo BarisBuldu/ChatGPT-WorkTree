@@ -1,5 +1,7 @@
 # Homelab Evolution ve Agents’ Room — Durum ve Sonraki İşler
 
+**2026-09-22 Phase 7 final closure:** Jarvis remote `main` HEAD `9723bc01eb8163713687dedeed24f1e1d1fd0c7c` bağımsız doğrulandı. Evidence/master/checkpoint/todo/completed Phase 7 `CLOSED (5/5 PASS)` ve `ccf208a` history exposure `user-accepted residual risk` olarak eşleşir. Current runtime/repo scripts secretsizdir; Phase 8 henüz başlamamıştır. **Aktif sıradaki iş Phase 8 Manga'dır.**
+
 **2026-09-22 son Antigravity çalışma raporu — bağımsız doğrulanmadı:** Jarvis `274d7d0` ve webapp `0e835ab` commitleriyle CT124'e AdGuard Home v0.107.79 kurulması, düzenli backup verification timer'ı, CT105 içinde restore-health fixture'ı, Guardian SQLite outbox/replay ve yeni storage/scanner/feedback/media endpoint'leri bildirildi. CT124 servisinin 188.340 kuralla alan adı engellediği raporlandı; fakat Deco hâlâ DHCP ile `192.168.68.1` dağıttığı için gerçek istemciler filtreleyen resolver'ı kullanmıyor. **Phase 7 OPEN kalır.** Public `1.1.1.1` fallback filtreleme/privacy bypass'ıdır; ikinci yerel filtreleyen resolver veya açık kullanıcı tradeoff kararı olmadan “SPOF önlendi” kabul edilmez. Ayrıca gerçek istemci query kanıtı; gerçek kritik servisin restore sonrası start+health'i; Discord kullanıcı teslim kimliği ve process restart sonrası replay; media hata/missing/quality örnekleri; HA integration/automation/runtime görünümü; feedback UI ve sonraki taramaya etkisi; Manga mount/UID/GID/I/O/backup önkoşulları final kanıt bekler. Rapordaki HA API adresi `192.168.68.132` ile canlı authoritative HA adresi `192.168.68.56` çelişir ve kaynak yolu doğrulanmalıdır. Repository mirror canonical master'ı, CT100'deki exact `274d7d0` dosyası alınmadan özet çıktıya göre yeniden yazılmaz.
 
 **Güncel üst kayıt — 2026-09-22:** Antigravity, Jarvis `3c52e23` ve webapp `bae5470` ile 15 dakikalık Guardian scanner timer'ının, bazı canlı domain sinyallerinin ve Translator UI bağlantısının production'a alındığını raporladı. Bu rapor burada bağımsız SSH ile doğrulanmadı. **Phase 7 OPEN:** CT124 gerçek adblock/istemci DNS yönlendirmesi yok; tek seferlik DB restore periyodik Level 3 servis start/health değildir; önemli olayın Discord'a gerçek teslimi, CT104 kesintisinde durable replay, eksik storage/media/HA kullanıcı akışları ve operatör geri bildirimi ayrıca kanıt ister. Phase 6 production Guardian→Fixer→typed executor zinciri de ayrı açık güvenlik kapısıdır; read-only sınır korunur. Önce Phase 7, sonra Phase 8 Manga, ardından Phase 9 çapraz/final işler. Aşağıdaki etkin adımlar Phase 7 OPEN ve zorunlu adblock kararına göre güncellenmiştir; son bölümdeki eski olay kayıtları tarihsel kanıttır. Yerel `handoffs/active` artık yalnız canonical master içerir; Phase 1/5 çalışma handoff'ları `handoffs/archive/` altındadır.
@@ -117,8 +119,8 @@ Bu bölüm her yeni kanıtta güncellenecek. `[x]` paylaşılan çıktıda tamam
 
 - [x] Phase 0–5 temel altyapısı kapalı raporlandı; özgün acceptance eksikleri final matriste ayrıca doğrulanır.
 - [ ] Phase 6 — motorun 69/69 testi ve CT105 10/10 sandbox gate'i raporlandı; Guardian→Fixer→typed executor production zinciri henüz bağlı değil. Varsayılan mutation deny ve exact policy/onay sürer.
-- [ ] **Phase 7 — OPEN.** Eski 6/6 tek sefer test raporu ile sonraki scanner/UI üretim bağlantısı ilerlemedir; CT124 adblock, sürdürülebilir servis restore, Discord durable teslimi ve kalan kullanıcı akışları geçmeden faz kapanmaz. [Master kapsam denetimi](2026-09-22_master-handoff-scope-audit.md).
-- [ ] Phase 8 — Phase 7 sonrası canlı storage/topology/backup ön koşulları ve manga stack kurulumu henüz tamamlanmadı.
+- [x] **Phase 7 — CLOSED (5/5 PASS).** Jarvis `9723bc0` remote HEAD doğrulandı; DNS/adblock, kullanıcı akışları, durable Discord replay, düzenli gerçek L3 restore ve current secret isolation kapıları geçti. `ccf208a` history exposure kullanıcı tarafından kabul edilmiş residual risk'tir.
+- [ ] **Phase 8 — ACTIVE NEXT.** Manga storage/topology/backup preflight, tek LXC Suwayomi+Komga ve gerçek reader/offline/progress/Discord/restore akışı henüz kurulmadı.
 
 ## 1. İki ana hat
 
@@ -131,7 +133,7 @@ Bu bölüm her yeni kanıtta güncellenecek. `[x]` paylaşılan çıktıda tamam
 
 ### Canonical aktif sıra — 2026-09-22 tam kapsam uzlaştırması
 
-1. Phase 7: yalnız Firefly/CT140 secret exposure ve P7-05 tekrar gate'i; işlevsel P7 parçaları yeniden kurulmaz.
+1. Phase 7: **CLOSED**; yeniden açılmaz. `ccf208a` history exposure accepted residual risk olarak korunur.
 2. Phase 8: yalnız Manga ürün alanı, fakat storage→LXC→Suwayomi/Komga→reader/offline/progress→Discord/Jarvis→backup/restore tam akışı.
 3. Phase 0 baseline reconciliation; ardından Phase 1 event/audit, Phase 2 Discord/approval, Phase 3 Command Center/watchdog, Phase 4 Brain/history, Phase 5 Guardian/Fixer read-only ve Phase 6 controlled remediation açık acceptance kapıları kendi fazlarında tamamlanır.
 4. Agents’ Room temel UI yeniden yapılmaz; özgün modlar ve CT102 recovery/fencing tamamlanır.
@@ -158,7 +160,7 @@ Eski Pazar işi `plex-appdata: HATA` ile sonuçlandı; bu tarihsel kayıt olarak
 
 **Gate sonucu:** Antigravity 2026-09-22'de production headless desktop/mobile, kart hata izolasyonu ve source/incident tutarlılığı testlerini PASS raporladı. “Konu kaydedilmemiş” sayısı 0; rutin başarılı bildirimler sorun sayısında değil. Webapp `0085f10`, Jarvis `0552507`, persistence 7/7 ve temiz ağaç bildirildi. Yerel takipte operasyonel parkur kapalı; gerçek kullanıcı tarayıcısı bu kapanış için yeni bir zorunlu kapı olarak eklenmez.
 
-### D. Şimdiki iş — Evolution Phase 7 OPEN; Phase 6 production kapısı ayrıca açık
+### D. Phase 7 CLOSED — şimdiki iş Phase 8 Manga
 
 Phase 6 typed remediation motoru için 69/69 test ve CT105 10/10 sandbox gate raporlandı; gerçek Guardian→Fixer→typed executor production çağıranı yok. Bu güvenli fail-closed durumdur, fakat master'ın kontrollü remediation teslimi sayılmaz. Yalnız policy/approval/verification/rollback/audit kapısıyla dar, izinli production hedefinde tamamlanabilir.
 
