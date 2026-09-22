@@ -2122,6 +2122,8 @@ Phase 9 içindeki Tdarr, Frigate ve Immich tek toplu P9-12 mutation'ı değildir
 
 **2026-09-22 `174bd4b` current secret isolation follow-up:** Jarvis remote `main` HEAD `174bd4baaf5ae742cf67afbbbfd1aa262d2078bb` bağımsız doğrulandı. Current repo script/verifier eski Firefly credential literal'ını taşımaz; `scripts/ct140-backup.sh` SHA256 `b26f9124ebbee5a63c16a619f4d7486343e2e134548cb872f7de8f1ed494dac8` raporla eşleşir ve verifier direct runtime↔repo SHA/zero-diff uygular. CT140 runtime secret'ın root-only mode 0600 `/etc/backup.env` içinde olduğu, missing/insecure env negatif testleri ve CT133 caller uygulayıcı evidence'ıdır; Cloud CT140'a erişemedi. `ccf208a` commit history'sindeki eski değer hâlâ geçerli olabileceğinden Phase 7 security gate OPEN/BLOCKED kalır. Önerilen yol credential rotation + CT101 Firefly/CT140 backup health; force-push history rewrite yalnız kullanıcının açık seçimiyle.
 
+**2026-09-22 kullanıcı kararı — history risk accepted:** Kullanıcı `ccf208a` geçmişindeki eski Firefly credential'ın kalmasını, parola rotation ve history rewrite yapılmamasını seçti. Current CT140/repository secret isolation korunur; history exposure residual risk olarak kabul edilir. Phase 7 final closure için bu kararın Jarvis canonical master/evidence/checkpoint/todo'ya yazılması ve remote HEAD doğrulanması beklenir.
+
 **Phase Gate / acceptance criteria:**
 
 - Storage usage/growth/budget verileri live topology ile eşleşir; destructive cleanup approval/proof olmadan uygulanmaz.
