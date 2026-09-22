@@ -78,7 +78,13 @@ Bu checklist uygulayıcı raporuna dayanır; her `[ ]` üretim kanıtı görüle
 
 ### Ardından: önceki faz açıkları ve Phase 9 final işler
 
-- [ ] **F-01 — özgün faz açığı:** Phase 2 approval güvenliği/aggregate report, Phase 3 CT104 bağımsız watchdog, Phase 6 Guardian→Fixer→typed executor production zinciri, Agents’ Room özgün modları ve CT102 replay/fencing her biri kendi fazının güvenlik/kabul kapısıyla tamamlanır. Agent consensus yetki değildir; destructive default-deny ve exact onay korunur.
+- [ ] **F1 — Phase 1 event/audit dayanıklılığı:** producer restart, spool dolması/backpressure, dead-letter, ambiguous delivery, audit index rebuild/restore ve retention kanıtları tamamlanır; kullanıcı kararıyla olmayan off-site audit kopyası kayıtlı risk olarak kalır.
+- [ ] **F2 — Phase 2 Discord ve approval:** aggregate report/timer, direct webhook cutover ve approval güvenliği üretimde doğrulanır; HMAC/policy yoksa onay güvenli varsayılmaz.
+- [ ] **F3 — Phase 3 Command Center dayanıklılığı:** CT104 bağımsız watchdog, auth/network action isolation, Jarvis+Prometheus ve CT104/Discord outage davranışı ile bütün servis kartlarının source/freshness durumu kanıtlanır.
+- [ ] **F4 — Phase 4 Graphify/history:** “Serverda problem var mı?” ve “Dün ne değişti?” gerçek çok kaynaklı yanıtları, incident lifecycle, index rebuild ve eski incident ilişkilendirmesi uçtan uca doğrulanır.
+- [ ] **F5 — Phase 5 Guardian/Fixer read-only güvenliği:** role/provider/None seçimi, güncel MCP/HA bağlamı, policy/audit unavailable ve adapter-bypass negatif testleri production caller üzerinde doğrulanır.
+- [ ] **F6 — Phase 6 kontrollü remediation:** Discord/Command Center approval → exact action/target/impact → Guardian→Fixer→typed executor → verification/rollback/audit/UI zinciri yalnız izinli test hedefinde kanıtlanır; mutation default-off ve destructive default-deny kalır.
+- [ ] **Agents’ Room özgün kabulü:** temel UI yeniden kurulmaz; özgün modlar ile CT102 durable replay/split-owner/fencing ve bütçe/timeout/loop sınırları tamamlanır.
 - [ ] **P9-01 — çapraz ürün işleri:** Tdarr, Frigate, Immich gerçek kaynak/bağımlılık incelemesi sonrası kurulur; commit/persistence gecikmesi ölçülerek düzeltilir. AI Operations Center kota/kullanım ekranı kullanıcının kararı gereği **en son ürün işi**dir. Yerel LLM ve oyun sunucusu şimdilik kapsam dışı.
 - [ ] **P9-02 — master final kabul:** §1–53 için production caller, kullanıcı sonucu, güvenlik negatif testi, Discord/audit, outage/replay, restore/rollback ve §52 senaryoları tek matriste doğrulanır. `LIB+TEST`, `ONE-SHOT`, `UNKNOWN` veya açık zorunlu iş varken master `CLOSED` değildir.
 
