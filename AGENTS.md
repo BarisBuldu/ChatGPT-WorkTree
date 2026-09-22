@@ -292,3 +292,13 @@ Ara güven değeri kullanma.
 Canlı kaynaklara erişilemediyse bunu açıkça belirt.
 
 Canlı kaynak kullanıldıysa hangi kaynakların kullanıldığını belirt.
+
+## ChatGPT WorkTree repository synchronization
+
+- Bu proje için kalıcı cloud çalışma ağacı `BarisBuldu/ChatGPT-WorkTree` GitHub repository'sidir.
+- Yeni Claude, Codex veya Antigravity çıktısı; canlı sistem kanıtı; kullanıcı kararı; gate sonucu ya da görev sırası mevcut durumu maddi olarak değiştirdiğinde ilgili repository belgeleri aynı çalışma turunda güncellenmelidir.
+- `handoffs/active/2026-09-17_jarvis-homelab-evolution.md` canonical master olarak korunur. Tarihsel Phase 1/5 kayıtları yeniden aktif talimat yapılmaz.
+- Canlı CT100 canonical dosyası ile repository mirror'u farklıysa fark açıkça belirtilir; özet çıktıdan canonical master içeriği tahmin edilmez. Önce exact dosya veya commit içeriği alınır, sonra mirror güncellenir.
+- `CLOSED`, `PASS`, commit veya test sayısı tek başına production teslim kanıtı değildir. Repository güncellemelerinde uygulayıcı raporu, bağımsız doğrulama ve canlı authoritative durum ayrı etiketlenir.
+- `sources/` read-only kalır. Force-push, unrelated dosya değişikliği, canonical geçmiş silme veya açık gate'i kanıtsız kapatma yapılmaz.
+- Her repository yazımından önce güncel `main` durumu kontrol edilir; concurrent değişiklik varsa overwrite edilmez, reconcile edilir.
