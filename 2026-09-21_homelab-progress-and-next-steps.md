@@ -1,0 +1,188 @@
+# Homelab Evolution ve Agents’ Room — Durum ve Sonraki İşler
+
+**Güncel üst kayıt — 2026-09-22:** Antigravity, Jarvis `3c52e23` ve webapp `bae5470` ile 15 dakikalık Guardian scanner timer'ının, bazı canlı domain sinyallerinin ve Translator UI bağlantısının production'a alındığını raporladı. Bu rapor burada bağımsız SSH ile doğrulanmadı. **Phase 7 OPEN:** CT124 gerçek adblock/istemci DNS yönlendirmesi yok; tek seferlik DB restore periyodik Level 3 servis start/health değildir; önemli olayın Discord'a gerçek teslimi, CT104 kesintisinde durable replay, eksik storage/media/HA kullanıcı akışları ve operatör geri bildirimi ayrıca kanıt ister. Phase 6 production Guardian→Fixer→typed executor zinciri de ayrı açık güvenlik kapısıdır; read-only sınır korunur. Önce Phase 7, sonra Phase 8 Manga, ardından Phase 9 çapraz/final işler. Aşağıdaki etkin adımlar Phase 7 OPEN ve zorunlu adblock kararına göre güncellenmiştir; son bölümdeki eski olay kayıtları tarihsel kanıttır. Yerel `handoffs/active` artık yalnız canonical master içerir; Phase 1/5 çalışma handoff'ları `handoffs/archive/` altındadır.
+
+**Tarih:** 2026-09-21  
+**Tür:** Kullanıcı için çalışma takip belgesi. Canonical master handoff'un yerine geçmez.  
+**Kaynak sınırı:** Bu durum, kullanıcının paylaştığı Claude/Antigravity çıktıları, ekran görüntüleri ve 2026-09-21'de Opera üzerinden yapılan canlı Agents’ Room kullanıcı testine dayanır. Canlı `context.txt` bu oturumda DNS nedeniyle okunamadı. “Raporlandı” ifadesi bağımsız canlı doğrulama anlamına gelmez.
+
+**2026-09-22 master kapsam denetimi:** [53 bölümlük handoff'a karşı durum ve açık adımlar](2026-09-22_master-handoff-scope-audit.md). Claude'un denetimi `CLOSED` ile production teslimini ayırdı; sonraki Antigravity raporu bazı Phase 7 caller'larını ekledi. **Şimdi Phase 7'nin açık P7-01–P7-05 kapıları tamamlanır.** Phase 2 approval/report ve Phase 6 production executor açığı özgün fazlarında takip edilir; Phase 8 Manga ve Phase 9 ancak bağımlı kapılar sonrasında başlar. Commit/persistence optimizasyonu geç, AI kota sayfası son ürün işidir.
+
+**2026-09-22 sıra düzeltmesi — ŞİMDİ PHASE 7:** Yerel canonical master handoff'taki Phase 7 `REOPENED` olarak düzeltildi. 6/6 test/ölçüm kapısı canlı storage/media/network/**adblock**/backup/HA teslimi sayılmaz. Önce bu özellikleri gerçek production caller + Jarvis/Command Center yüzeyi + failure/tazelik ile tamamla ve Phase 7 gate'ini yeniden geçir. **Sonra Phase 8 Manga**, ardından Phase 9 kalan çapraz entegrasyon/§47 sistemleri ve final kabul. Phase 9 maddeleri Phase 7 veya 8 işini ertelemek için kullanılmaz. [İlk 53 maddeye karşı yapılan/eksik tam envanter](2026-09-22_master-53-madde-gercek-durum.md). Sonraki uygulayıcı master güncellemesi raporlandı; bu yerel kopyanın canlı CT100 ile birebir eşitliği ayrıca doğrulanmadı.
+
+**2026-09-22 master UX/güvenlik denetimi:** Aynı canonical handoff'ta §5–9, §12, §18–19, §34, §39, §45, §52 ve Phase 0–9 kapıları genişletildi: genel Guardian taramasının kullanıcıya görünmesi, Discord sonuç teslimi, anlaşılır stale/unknown durumları, onay planının değişime/replay'e bağlanması, eşzamanlı action kilidi, prompt-injection/mahremiyet, restore ve deploy geri dönüşü, mobil/masaüstü senaryoları. Phase 9'un Phase 7 adblock ve Phase 8 manga işlerini ertelemediği açıklaştırıldı. Bunlar **doküman revizyonudur**; canlıya uygulanmış özellik kanıtı değildir. İlgili orijinal fazlar üretim kanıtıyla yeniden kapatılır.
+
+**Guardian/Fixer tetikleme ve yetki kontratı:** AI sürekli açık oturum değildir; bütün homelab için configurable periyodik genel tarama ve canonical actionable incident/anlamlı state değişimiyle idempotent, bütçeli görev açılır. Kullanıcının “incele” isteği ek seçenektir; servisleri tek tek seçmesi gerekmez. Command Center refresh tetiklemez. HA update/repair/notification maintenance signal olarak Guardian'a görünür; update otomatik kritik olay veya otomatik kurulum değildir. Guardian/Fixer okur/önerir; varsayılan mutasyon kapalıdır. Yalnız önceden açıkça tanımlanmış dar düşük riskli typed action, Phase 6 production gate sonrası self-healing olabilir. Diğer mutasyon exact kullanıcı onayı bekler; destructive action ajanlarda doğrudan yetki değildir ve onay + proof olsa bile ayrı executor gerektirir. Bu, master §10–11 ve Phase 5–7 gate'lerine işlendi; canlı uygulandığı henüz doğrulanmadı.
+
+**2026-09-22 proaktiflik düzeltmesi:** Kullanıcı tek tek servis seçmeyecek. Guardian bütün homelab envanterini configurable periyodik read-only tarama **ve** event-driven triage ile kendisi izleyecek; AI yalnız görev sırasında çalışacak. Command Center kartı tek trigger değildir. Sorun bulursa kendisi derinlemesine inceler, Fixer'a devreder; riskli action için Discord/admin plane'de gerekçe, exact target, etki ve rollback içeren tekil onay ister. Phase 7'nin read-only tarama/HA signal yolu ve sonraki kontrollü execution yolu ayrı gate'lerdir; canlı uygulama henüz kanıtlanmadı.
+
+**2026-09-22 Discord teslim kontratı:** Guardian/Fixer'ın anlamlı bulgu, onay isteği, yapılan güvenli action, başarısızlık/rollback ve sonuçları CT104 üzerinden kullanıcıya proaktif gider; sırf UI/logda kalmaz. Sorunsuz her tarama spam üretmez, configurable aggregate rapora girer. Discord/CT104 down iken durable spool/replay ve canonical audit ayrımı korunur. Bu §32 ve aktif Phase 7 gate'ine yazıldı; production bağlantısı henüz doğrulanmadı.
+
+**2026-09-22 güncel §47 kararı:** Master P9-01–P9-14 içerir. P9-12'de **Tdarr, Frigate ve Immich** gerçek kurulum işidir; kullanıcı yerel LLM ve oyun sunucusunu şu an istemediğinden bu ikisi kapsam dışıdır ve gate'i bloke etmez. P9-13 AI kullanım/kota ekranı (son ürün işi), P9-14 final kabul. Kaynak yetmezse hangi CT'nin kapatılacağı gerçek bağımlılık/etki/geri dönüş ve gerekli kullanıcı onayıyla belirlenir. Kurulum kanıtı olmadan CLOSED denmez.
+
+## Canlı kontrol listesi
+
+Bu bölüm her yeni kanıtta güncellenecek. `[x]` paylaşılan çıktıda tamamlandığı görülen işi, `[ ]` açık kabul kriterini gösterir. **Bir faz yalnız bütün zorunlu kutuları işaretlenince kullanıcı açısından kapanır.**
+
+### Agents’ Room — temel UI/handoff canlı raporlandı; master özgün mod/recovery kapısı açık
+
+- [x] **2026-09-22 Antigravity kapanış raporu:** CT100 dispatcher `Restart=always`/kalp atışı ve mükerrer çalıştırmadan recovery, Claude `/tmp` geniş izinlerinin kaldırılması, üç ajanda mutation reddi, kullanıcı başlatmalı handoff ve masaüstü/mobil headless kabul paketi 5/5 PASS (exit 0) olarak bildirildi. Jarvis/webapp commitleri, temiz çalışma ağaçları, aktif servisler ve persistence PASS raporlandı; master ve parallel track uygulayıcı tarafından CLOSED işaretlendi. Bu rapor bağımsız canlı doğrulama değildir.
+- [x] **2026-09-22 hedefli kapanış düzeltmesi (uygulayıcı raporu):** Görev açık/tartışma tamamlandı durumları ayrıldı; 12 kümülatif ajan yanıtı ile son 6/6 tur açıkça adlandırıldı; v2/v3 handoff sürümleme ve `handoff_created` audit kaydı gösterildi. Handoff endpoint güvenliği 7/7 PASS, desktop/mobile DOM ve persistence/iki repo commit'i raporlandı. F7'nin 19 HA sinyali × 3 sağlayıcı kanıtına atıf yapıldı. Kullanıcı üretilen v3 handoff'u paylaştı.
+
+- [x] F0–F7 altyapı, policy, görev kimliği ve Guardian/Fixer testleri kapalı raporlandı.
+- [x] F8 aynı `task_id`/`correlation_id` ile Claude → Antigravity → Codex adapter devir testi yapıldı.
+- [x] F9 ayrı tam ekran Agents’ Room sayfası, backend API ve Agent Box/Command Center bağlantıları kurulduğu raporlandı.
+- [x] Ayrı test scripti üç gerçek CLI’dan yanıt aldı ve aynı canonical göreve kaydetti.
+- [x] **Test sırasında gerçek kullanıcı akışı:** Agents’ Room API mesajı `dispatch_requested` üretti; foreground CT100 dispatcher gerçek Claude → Antigravity → Codex CLI yanıtlarını aynı görevde kaydetti (11/11 E2E raporlandı).
+- [x] `None/Taslak` için dispatch olmadığı ve `Devret` sonrası yeni sağlayıcının yanıt verdiği E2E'de raporlandı.
+- [x] Claude'un `/tmp` çalışma dizini atlatması kaldırıldı; `/opt/jarvis` CWD ile üç sağlayıcıya inline ortak bootstrap verildiği ve yanıtların bu rol bilgisini kullandığı raporlandı.
+- [x] **Canlı kullanıcı testi:** Yeni `None/Taslak` görev ve mesaj kaydedildi; ajan çağrısı oluşmadı. Görev `01M31X3XQ9EDF4B0B861AFV1JS`.
+- [x] **Dispatcher recovery:** Önceki kullanıcı görevinin üç bekleyen çağrısı 2026-09-21 15:09'da işlendi; Claude/Codex/Claude yanıtları ve `dispatch_completed` kayıtları Opera'da görüldü. Claude'un systemd unit + recovery uygulaması ve iki repo commit'i raporlandı.
+- [x] **Yeni canlı dispatch:** `01M31YT8K7W6Q2C1ZMC34QWR6G` görevinde 15:25:42'de gönderilen ilk Claude mesajı 15:25:52'de gerçek ajan yanıtı ve `dispatch_completed` ile aynı odada göründü.
+- [x] **Devir sonrası yeni mesaj:** Antigravity auto-refresh'in metin kutusunu yeniden oluşturmasını kök neden olarak raporladı; taslak koruma ve sunucu kaydı onaylanmadan kutuyu temizlememe düzeltmesi yaptı. Aynı görevde Claude → Antigravity → Codex gerçek yanıtlarını headless Chromium testinde doğruladığını bildirdi. Commitler: webapp `43c6203`, Jarvis `af00d6f`. Kullanıcının kendi tarayıcısında tekrar kontrolü bekleniyor.
+- [x] **Mesaj sınırı (uygulayıcı raporu):** `0/12` görev düzeyindeki attempt sınırı olarak saptandı; kullanıcı konuşmasının sınırsız olacağı, tekil dispatch retry/loop sınırının ayrı korunduğu ve 12 üzeri mesaj testinin geçtiği raporlandı. Kullanıcının arayüzünde ayrıca doğrulanacak.
+- [x] **Üç ajanlı ortak tartışma (uygulayıcı raporu):** Butonla başlayan 6 turda Claude → Antigravity → Codex sırası iki kez çalıştı, gerçek CLI yanıtları aynı görevde kaydedildi; sonunda otomatik durdu. Sıralama için yukarı/aşağı kontrolleri ve dinamik önizleme de eklendiği, tarayıcı testinden geçtiği raporlandı. Kullanıcının arayüzünde ayrıca doğrulanacak.
+- [x] **Kota/hata fallback (uygulayıcı raporu):** Ara tur başarısızsa atlayıp sıradakine geçtiği, son ajanın kotası bittiyse sağlıklı bir ajanın sonuç verdiği, tümü başarısızsa durduğu testlerle raporlandı. Başarısız turun `6/6` sayacında nasıl gösterildiği ve sonuç kalitesi kullanıcı arayüzünde gözden geçirilecek.
+- [x] **2026-09-21 gerçek kullanıcı denemesi — CT140 konusu ve düzeltme:** İlk PDF'de Antigravity 2. tur izin hatasıyla atlandı, 4–5. turlar aynı Claude'a gitti ve `6/6` yanıltıcıydı. Sonraki Antigravity raporunda headless izin, sıra/provenance ve sayaç düzeltildi; yeni canlı görevde Claude → Antigravity → Codex sırası iki kez 6/6 başarılı, 0 skip olarak raporlandı. Bu sonuç uygulayıcı kanıtıdır; ilk PDF tarihsel hata kanıtı olarak kalır.
+- [x] **2026-09-21 güvenlik düzeltmesi (uygulayıcı raporu):** `always-proceed` kaldırılıp `request-review` ve dar read/MCP allowlist'e dönüldü. Headless agy ile read_file ve Graphify MCP geçti; izole `/tmp` yazma/silme ve dummy servis restart girişimleri reddedildi; politika drift 5/5 ve persistence geçtiği, commit `6aaaa32` olduğu raporlandı. Bu hedefli testler tüm olası mutation yollarının kapalı olduğunu ispatlamaz; kullanıcı arayüzü kabulü ayrıca bekleniyor.
+- [x] Alt kısımdaki **Konuşan** seçimi kaldırıldı; canlı UI yalnız “Kullanıcı olarak yazıyorsunuz” gösteriyor. Backend `from=agent` 400 kontrolü Claude'un 16/16 testinde raporlandı; bağımsız API testi yapılmadı.
+- [x] **Arşivle / Arşivden çıkar** canlı UI'da denendi: test görevi listeden çıktı ve geri döndü; aynı mesaj/yanıt geçmişi korundu, iki `metadata_patched` olayı göründü.
+- [x] Sol görev listesindeki aktif ajan etiketi devirden sonra ayrıntıyla aynı **Google Antigravity** değerini gösterdi.
+- [x] **Kalıcı runtime (uygulayıcı raporu):** CT100 dispatcher `Restart=always`, 3 saniye yeniden başlama, status API/rozet ve `dispatch_id` üzerinden mükerrer CLI çağrısını engelleyen recovery testi PASS. Gerçek host reboot'u ayrıca kanıtlanmadı.
+- [x] `.claude/settings.local.json` geniş `rm /tmp/*`/`rm -rf /tmp/*` izinleri kaldırıldı; üç sağlayıcıya gerçek odadan silme/servis durdurma talepleri reddedildi ve drift 5/5 raporlandı.
+- [ ] **Bağlam kanıtı:** Üç CLI için Graphify MCP listesi ve F7'de 19 HA sinyali × 3 sağlayıcı = 57 başarılı alt süreç raporlandı. Bu önceki kanıtların gerçek Agents’ Room ve Guardian/Fixer runtime çağrılarıyla eşleşmesi, özellikle provider/rol provenance ve tazelik açısından hâlâ kanıt belgesinde incelenecek; belirsiz kalan role özgü hedefli test yapılacak.
+- [x] **Uçtan uca (uygulayıcı raporu):** None/Taslak sıfır dispatch, 401 auth, 409 tamamlanmış görev, yenileme kalıcılığı, masaüstü/mobil Chromium render, commit ve persistence PASS olarak bildirildi. Altı tur ve 12 üstü mesaj daha önce ayrı uygulayıcı testlerinde raporlanmıştı.
+- [x] **Handoff aktarımı:** Kullanıcı gerçek Agents’ Room görevinde “Handoff oluştur” sonucunu v3 belge olarak paylaştı; dosya üretimi, sürümleme ve konuşma aktarımı kullanıcı açısından doğrulandı. Uygulayıcı ayrıca dar endpoint, canonical `handoff_created`, 401 auth, 400 path traversal/karakter reddi, izinli dizin ve audit/provenance için 7/7 PASS bildirdi.
+- [ ] **İleride handoff içerik doğruluğu:** `phase5_readonly` seçili Agents’ Room oturumu gerçekten kod yazamaz; fakat bu, normal geliştirme işinin genel olarak Phase 6 remediation gate'ini beklemesi gerektiği anlamına gelmez. Üretilen v3 handoff'taki “commit/persistence geliştirmesi Phase 6'ya tabidir” ifadesi ileride şablon/policy anlatımı düzeltilirken giderilecek; ilgili görevdeki öneriler uygulanmış gibi gösterilmeyecek. Bu düşük öncelikli içerik düzeltmesi Agents’ Room işlevsel kabulünü tek başına bloke etmez.
+- [x] Kullanıcı 2026-09-21'de Agents’ Room arayüzünü şimdilik kabul etti.
+- [x] **Parallel Track işlevsel kapanış:** Uygulayıcı CLOSED kaydetti; kullanıcı gerçek UI üzerinden üretilen v3 handoff'u paylaşıp akışı doğruladı. Yerel takipte temel üç ajanlı UI/handoff çalışır; master §20 özgün modları, CT102 replay/fencing ve role özgü bağlam kanıtı açık kalır. Bunlar temel UI'ın yeniden kurulmasını gerektirmez, fakat Parallel final gate kapanmadan doğrulanmalıdır.
+
+### CT140 Plex yedekleme — çalışma düzeldi; Google Drive temizliği açık
+
+- [x] 2026-09-21 sabahı ayrı günlük yedek başarılı tamamlandı; Pazar Plex adımını içermediği ayrıştırıldı.
+- [x] 2026-09-20 19:31'de başlayan sorunlu Pazar Plex `rclone` işi kontrollü sonlandırıldı; `plex-appdata: HATA` kaydı ve `backup_healthy 0` görüldü.
+- [x] Eski başarısız Pazar çalışması, sonraki başarılı günlük çalışma ve yeni kontrollü Plex çalışması ayrı zaman/sonuç olarak incelendi; `backup_plex_healthy=1`, `backup_healthy=1`, `backup_items_failed=0` raporlandı. Eski hata artık Command Center'da görünmüyor.
+- [x] Antigravity raporuna göre Plex SQLite veritabanı için tutarlı dump, restore kapsamındaki `plex-assets.tar` ve `Preferences.xml` kullanıldı; ilk kontrollü yedeğin izole restore testi geçti.
+- [x] Küçük dosyaların tek tek Drive'a gönderilmesi yerine arşivli yöntemle Plex adımı 9 dk 47 sn sürdü; yeni yerel/Drive dosyaları boyut ve MD5 bakımından eşleşti. Önceki 403'ün tüm Drive kullanımında asla tekrarlanmayacağı iddia edilmiyor.
+- [x] Tam `/opt/backup.sh --plex` çalışması 20:16:51'de başarılı bitti; exporter/Prometheus sağlıklı, Command Center uyarısı kayboldu. Yeni yedek için ayrı restore testi raporlanmadı; aynı yöntemle alınan ilk yedeğin restore testi ve yeni dosyanın bütünlük kontrolü bu olayın kapanış kanıtı kabul edildi.
+
+**Son uygulayıcı raporu (2026-09-21 20:16:51):** İkinci `/opt/backup.sh --plex` çalışması tamamlandı. Yeni `plex-backups/2026-09-21` içindeki iki SQLite dump, `plex-assets.tar`, `Preferences.xml` ve `SHA256SUMS` yerel/Drive boyut ve MD5 bakımından eşleşti. Önceki ilk çalışma için izole restore testi raporlandı. `backup_healthy=1`, `backup_items_failed=0`, `backup_plex_healthy=1`; kullanıcı Command Center uyarısının kaybolduğunu gördü. Haftalık otomatik cron'un sonraki gerçek çalışması henüz görülmedi. Eski `gdrive:Proxmox Backups/plex-appdata` klasörü güvenilir yedek değildi; kullanıcı daha sonra bu klasörü sildiğini bildirdi. `appdata` içindeki 10 eski Overseerr logu şimdilik bırakıldı.
+
+**Drive denetiminin ayrıntısı:** Güncel `plex-backups/2026-09-21` beş dosyasının tümü yerel/uzak MD5 ve boyut bakımından eşleşti. Silinmeden önce eski `plex-appdata` doğrudan-sync klasöründe Mayıs/Haziran tarihli, güncel dump'lardan küçük DB'ler ve eski WAL/SHM dosyaları vardı; Antigravity bu klasörü geçerli restore kaynağı saymadı. `appdata` kontrolünde 2.846 eşleşen dosya, çalışan servislerin 9 değişken dosyası ve Drive'da kalmış 10 eski Overseerr logu raporlandı. Bu loglar şimdilik korunuyor.
+
+**Olay kapanışı dışındaki takip:** Gelecek otomatik Pazar cron'unun sonucu ve günlük/Plex çalışmalarının kalıcı run-id ile ayrı raporlanması daha sonra izlenecek. Kalan eski loglar için ayrı retention kararı verilecek. Bunlar bugünkü başarılı backup olayını tekrar açmaz.
+
+- [x] Kullanıcı 2026-09-21'de eski `gdrive:Proxmox Backups/plex-appdata` klasörünü kendisinin sildiğini bildirdi. Silme yöntemi ve çöp kutusu durumu bağımsız doğrulanmadı; güncel `plex-backups/2026-09-21` korunmalı.
+- [x] Kalan küçük Drive artığı tanımlandı: `gdrive:Proxmox Backups/appdata` altında Haziran 2026'dan 10 eski Overseerr logu. Antigravity bunların yerelde artık bulunmadığını ve mevcut backup exclude kuralında olduğunu raporladı. Temizlik isteğe bağlı; yedek sağlık gate'i değil. Canlı değişen 9 dosya “çöp” sayılmaz.
+- [x] Kullanıcı kararı: 10 Overseerr logu şimdilik kalacak; ileriki iş olarak kendi TODO listesine eklendi. CT140 kapanışını engellemez.
+
+### Command Center doğruluğu — Agents’ Room UI işi sonrasında
+
+- [x] 2026-09-21 22:08 canlı Opera salt-okunur kontrolü: ana ekranda Plex appdata backup uyarısı açık; Prometheus ve Alertmanager kaynakları `ok`; Guardian/Fixer `None`. Teknik Detay → Geçmiş & Grafikler'de `1 açık`, `1 izlenen`, `0 çözülmüş`, `872 geçmişten öğrenilen`, `4 test/doğrulama`, `10 legacy unknown` görünüyor. Tekrarlayan örüntünün teknik kaynağı `jarvis-guardian → discord`, `notify/delivered`; buna rağmen kullanıcı başlığı `Konu kaydedilmemiş`. Beş sistem etkinliği de aynı boş başlık/alanlarla gösteriliyor. Bu, kaynak metadata/projection gösteriminin hâlâ açık UI sorunu olduğunu doğrudan doğrular.
+- [x] Antigravity raporuna göre “Konu kaydedilmemiş” için kaynak eşleme düzeltildi; güvenilir konu gösteriliyor, eşleşmeyen eski kayıtlar legacy/unknown işaretleniyor. CT132 Chromium masaüstü/mobil testlerinde ifade sayısı 0; kullanıcı tarayıcısında bağımsız kabul bekleniyor.
+- [x] Antigravity raporuna göre başarılı rutin bildirimler tekrarlayan sorun listesinden ayrıldı; sistem etkinliklerinde korundu. CT132 testinde tekrarlayan sorun kartı “Sorun yok” gösterdi.
+- [x] **Uygulayıcı raporu:** Prometheus/Alertmanager süreçleri ve CT104 watchdog sağlıklıyken anlık PromQL sorgusunun timeout olduğu; readiness probe/retry ile sahte kritik alarmın giderildiği bildirildi. TSDB işlemleriyle kesin nedensellik uygulayıcının yorumudur; canlı olay zamanı kanıtı ayrıca gözlenebilir.
+- [x] **Uygulayıcı raporu:** Üst sağlık rozeti, açık olaylar ve kaynak durumu production desktop/mobile testinde tutarlı; tek kart hatası diğer kartları bozmuyor, yeniden deneme çalışıyor. `verify_command_center_event_accuracy.py` ALL TESTS PASSED ve iki repo commit/persistence/temiz ağaç bildirildi.
+- [x] Geçmiş kartlarının ayrı hata yakalama/Tekrar Dene davranışı, masaüstü/mobil görünüm ve ilgili Jarvis/webapp commitleri uygulayıcı tarafından raporlandı; geniş sağlık tutarlılığı kapısı yukarıda açık.
+
+### AI Operations Center — EN SON İŞ; şimdi uygulanmayacak
+
+- [x] Resmî kaynak araştırması `2026-09-21_ai-quota-data-sources.md` dosyasına yazıldı. Codex App Server ve Antigravity CLI için yapılandırılmış kota verisi belgelenmiş; Claude bireysel aboneliğinin Usage yüzdeleri kullanıcı ekranında var, fakat belgelenmiş abonelik-kotası API'si doğrulanmadı.
+- [ ] **A0 — mevcut sistemi incele:** CT100/CT132 AI Operations Center veri akışını, üç CLI'ın kullandığı gerçek hesap ve auth yöntemini, mevcut kartları, token/kullanım kayıtlarını ve mevcut sır saklama sınırını çıkar. API kullanımını abonelik pencerelerinden ayır.
+- [ ] **A1 — Codex collector:** aynı kullanıcı hesabında giriş yapılmış Codex App Server `account/rateLimits/read` yanıtındaki bucket'ları oku. `windowDurationMins`, `usedPercent`, `resetsAt`, `limitId` ve gözlem zamanını sakla; 5 saat/hafta bucket'larını gerçek süreyle eşleştir. `account/usage/read` token aktivitesini kalan kota diye kullanma. Read-only collector ve dar backend erişimi uygula.
+- [ ] **A2 — Antigravity collector:** mevcut CLI `statusLine` ayarını bozmadan `quota` JSON'unu dar yerel toplayıcıyla al. Gerçekte dönen `remaining_fraction`, `reset_time` ve bucket adlarını doğrula. `Antigravity Gemini` ile `Antigravity Claude/GPT` 5 saatlik/haftalık havuzlarını ayrı göster; bunları bağımsız Claude Code veya Codex abonelik kotası sanma. CLI kapalıysa son ölçümü stale işaretle; sırf kota için ajan görevi başlatma.
+- [ ] **A3 — Claude collector araştırma/uygulama:** bireysel Claude hesabındaki `Settings → Usage` ve Claude Code `/usage` ile 5 saatlik/haftalık yüzde ve reset saatini doğrula. Desteklenen programatik abonelik-kotası arayüzü varsa onu kullan. Yoksa mevcut yetkili tarayıcı oturumuyla **salt-okunur** Usage sayfası otomasyonunun sürdürülebilirliğini, auth oturumunu Command Center'a taşımadan ve kullanıcı şifresini kaydetmeden test et. DOM değişimi, oturum bitmesi veya erişim hatasında son değeri güncel gibi gösterme; `veri alınamadı/stale` ve resmî sayfaya bağlantı sun. Özel/tersine mühendislikle bulunmuş endpoint'i kalıcı sözleşme sayma. Tarayıcı okuması güvenilir değilse Claude yüzdesini otomatik göstermeme kararı kanıtıyla kaydedilsin.
+- [ ] **A4 — Agents’ Room dahil kullanım:** gerçek Claude/Codex/Antigravity dispatch'lerini provider, model, `task_id`, `correlation_id`, kaynak=`agents_room`, zaman ve varsa token kullanımıyla canonical audit'e bağla. Bir çağrıyı bir kez say; Agent Box/Guardian/Fixer ve CLI dışı kullanım varsa kaynaklarını ayır. Yerel çağrı toplamından hesap düzeyinde kalan abonelik yüzdesi uydurma.
+- [ ] **A5 — UI:** mevcut AI Operations Center'ı genişlet; her sağlayıcı için 5 saatlik ve haftalık kalan yüzde, reset zamanı, veri kaynağı ve `live/stale/unavailable` durumu göster. Antigravity'nin iki kota havuzu ayrı; Claude Opus/diğer haftalık bucket'ları yalnız kaynakta ayrıysa ayrı. Kullanım grafikleri, abonelik kotası ve varsa API faturası/AI Credits birbirine karışmasın. Eksik veri sıfır gibi gösterilmesin; veri erişilemezse diğer kartlar çalışsın.
+- [ ] **A6 — kabul:** gerçek üç hesap ve gerçek bucket'larla kaynak ekran/API ↔ normalize backend ↔ desktop/mobile UI karşılaştırması yap; sıfırlanma zamanı, yüzde, tazelik, oturum kapanması, tek kaynak hatası, Agents’ Room çifte sayımı ve secrets sınırını doğrula. Test, production evidence, commit, persistence ve rollback kaydı tamamlanınca işi kapat.
+- [x] **Sıra kararı:** Kullanıcı bu AI sayfasının en son iş olmasını istedi. Agents’ Room kapanışı, Evolution Phase 6–8 ve diğer açık operasyon/bakım işleri bitmeden A0–A6 uygulamasına başlanmayacak.
+
+### 2026-09-21 akşamı CT140 ek durum
+
+- [x] Antigravity raporuna göre ilk kontrollü Plex yedeği Drive'a yüklendi ve izole restore testi geçti; ana `backup.log` akışına `plex-appdata: OK` yazılmadığından eski Pazar `HATA` kaydı exporter ve Command Center uyarısında kaldı.
+- [x] Command Center'daki eski sabit “05:23 / sdb I/O” açıklamasının dinamik hata metniyle değiştirildiği ve webapp'de doğrulandığı raporlandı.
+- [x] Kullanıcının 2026-09-21 bildirimi: ikinci `/opt/backup.sh --plex` çalışması bitti ve Command Center yedekleme uyarısı kayboldu.
+- [x] Antigravity'nin son raporunda ikinci çalışmanın tamamlandığı, `backup_healthy=1`, `backup_items_failed=0`, `backup_plex_healthy=1` metrikleri ve yeni Plex Drive/yerel dosyalarının boyut+MD5 eşleşmesi doğrulandı. Bu, uygulayıcı kanıtıdır; otomatik Pazar cron'unun sonraki çalışması ayrıca izlenecek.
+- [x] Google Drive Plex/appdata salt-okunur denetimi raporlandı: yeni `plex-backups/2026-09-21` tam; eski `plex-appdata` tutarsız/eskimiş doğrudan-sync artığı ve `appdata` içinde 10 eski Overseerr logu var. Hiçbir bulut dosyası silinmedi.
+
+### Geliştirme akışı — commit ve persistence süresi (son bakım işleri)
+
+- [ ] `git commit`, commit hook'ları, `stage-persistence.sh` ve `verify-session-state` adımlarının süreleri ayrı ayrı ölçüldü; uzun beklemenin gerçek aşaması ve kök nedeni kaydedildi.
+- [ ] Gereksiz tekrarlanan veya tüm repoyu tarayan kontroller daraltıldı/önbelleklendi; zorunlu persistence, audit ve güvenlik kontrolleri atlanmadan commit akışı hızlandırıldı.
+- [ ] Düzenleme sonrası normal commit ve persistence doğrulamasının süreleri önce/sonra karşılaştırıldı; hata durumunda açık sonuç ve sınırlı bekleme davranışı doğrulandı.
+
+### Ana Homelab Evolution hattı
+
+- [x] Phase 0–5 temel altyapısı kapalı raporlandı; özgün acceptance eksikleri final matriste ayrıca doğrulanır.
+- [ ] Phase 6 — motorun 69/69 testi ve CT105 10/10 sandbox gate'i raporlandı; Guardian→Fixer→typed executor production zinciri henüz bağlı değil. Varsayılan mutation deny ve exact policy/onay sürer.
+- [ ] **Phase 7 — OPEN.** Eski 6/6 tek sefer test raporu ile sonraki scanner/UI üretim bağlantısı ilerlemedir; CT124 adblock, sürdürülebilir servis restore, Discord durable teslimi ve kalan kullanıcı akışları geçmeden faz kapanmaz. [Master kapsam denetimi](2026-09-22_master-handoff-scope-audit.md).
+- [ ] Phase 8 — Phase 7 sonrası canlı storage/topology/backup ön koşulları ve manga stack kurulumu henüz tamamlanmadı.
+
+## 1. İki ana hat
+
+| Hat | Bildirilen durum | Kapanmadan önce gereken |
+|---|---|---|
+| Parallel Agents’ Room (F0–F9) | Temel UI/üç ajan/handoff işlevi kullanıcı tarafından denendi; uygulayıcı CLOSED raporladı, master özgün kabulü kısmi. | §20 özgün modlar, CT102 recovery/fencing ve Guardian/Fixer role-specific bağlam kanıtı açık; temel kullanıcı işlevi yeniden yapılmaz. |
+| Jarvis Homelab Evolution (Phase 0–9) | Önceki Phase 0–7 kapanışları raporlandı; Phase 6 production zinciri ve Phase 7 canlı kapıları ayrıca açık. | Şu an Phase 7 OPEN; sonra Phase 8 Manga ve Phase 9 çapraz/final işler. [Denetim](2026-09-22_master-handoff-scope-audit.md). |
+
+## 2. Şu anki öncelik sırası
+
+### A. Agents’ Room — temel kullanıcı akışı teslim edildi; özgün mod/recovery kapısı açık
+
+Uygulayıcı 5/5 gate PASS, production commit/persistence ve üç ajanlı gerçek akışı raporladı. Kullanıcı gerçek Agents’ Room görevinden üretilen v3 handoff'u paylaşıp handoff akışını doğruladı. Temel kullanıcı akışını tekrar kurma. Ancak özgün modların her biri, CT102 kaybında replay/fencing ve Guardian/Fixer rol bağlamı hedefli kabul kanıtı ister; Parallel master gate bunlar geçmeden tam kapanmış sayılamaz.
+
+### B. CT140 Plex yedek olayı — KAPANDI
+
+Eski Pazar işi `plex-appdata: HATA` ile sonuçlandı; bu tarihsel kayıt olarak korunuyor. Yeni yöntemle ilk Plex yedeği izole restore testinden geçti. Ardından tam `/opt/backup.sh --plex` çalışması 2026-09-21 20:16:51'de başarılı bitti; yeni Drive dosyaları yerel kopyalarla MD5 düzeyinde eşleşti, `backup_healthy=1`, `backup_items_failed=0`, `backup_plex_healthy=1` raporlandı ve kullanıcı Command Center uyarısının kaybolduğunu gördü. **Bu operasyon olayı kapalıdır.** Sonraki otomatik Pazar çalışmasının gözlenmesi, kalıcı run-id görünümü ve eski Drive klasörünün retention kararı rutin takip maddeleridir; bu olay için yeniden tam yedek başlatma gerekmez.
+
+### C. Command Center olay doğruluğu — KAPANDI (uygulayıcı kanıtı)
+
+1. **“Konu kaydedilmemiş”:** canonical event'te güvenilir konu varsa gerçek olay adı; yoksa açık legacy/unknown etiketi. Başarılı rutin bildirimler tekrarlayan sorun sayılmaz.
+2. **Prometheus/Alertmanager dalgalanması:** 2026-09-21 11:02 sağlıklı, 11:03 erişim uyarısı görüldü. O dakikadaki CT132 probe, timeout, gerçek servis sağlığı ve incident aç/kapat olaylarını karşılaştır. Geçici probe hatasını gerçek servis kesintisi gibi sunma; üst sağlık rozeti ve açık olaylar aynı kaynağın zamanıyla uyumlu olsun.
+3. Değişiklikleri production desktop/mobile, fail-soft, test, evidence ve commit ile doğrula.
+
+**Gate sonucu:** Antigravity 2026-09-22'de production headless desktop/mobile, kart hata izolasyonu ve source/incident tutarlılığı testlerini PASS raporladı. “Konu kaydedilmemiş” sayısı 0; rutin başarılı bildirimler sorun sayısında değil. Webapp `0085f10`, Jarvis `0552507`, persistence 7/7 ve temiz ağaç bildirildi. Yerel takipte operasyonel parkur kapalı; gerçek kullanıcı tarayıcısı bu kapanış için yeni bir zorunlu kapı olarak eklenmez.
+
+### D. Şimdiki iş — Evolution Phase 7 OPEN; Phase 6 production kapısı ayrıca açık
+
+Phase 6 typed remediation motoru için 69/69 test ve CT105 10/10 sandbox gate raporlandı; gerçek Guardian→Fixer→typed executor production çağıranı yok. Bu güvenli fail-closed durumdur, fakat master'ın kontrollü remediation teslimi sayılmaz. Yalnız policy/approval/verification/rollback/audit kapısıyla dar, izinli production hedefinde tamamlanabilir.
+
+Phase 7'nin eski `dc6d9d4` 6/6 ölçümü yalnız tek seferlik testti. Sonraki Antigravity raporu `3c52e23` ve webapp `bae5470` ile 15 dakikalık Guardian scanner/timer, bazı canlı domain sinyalleri, Translator UI ve mobil/masaüstü kontrolü kurulduğunu bildiriyor. Bu ilerleme aşağıdaki açık kapıları kapatmaz:
+
+- [x] **P7-00 — bildirilen ilerleme:** Scanner/timer ve canlı UI bağlantıları uygulayıcı tarafından raporlandı; hedef runtime'da yeniden doğrulanır.
+- [ ] **P7-01 — CT124 DNS adblock:** Filtreleme servisi ve istemci yönlendirmesi yok. CT124/Deco/DHCP inspect → uygun ürün kurulumu → gerçek istemci sorgusu → bypass etmeyen failover/privacy → rollback ve kullanıcı görünümü kanıtı. Kurulum Phase 7 zorunludur.
+- [ ] **P7-02 — storage/media/network/HA:** Gerçek tahmin/cleanup adayları, stuck/failed/missing/quality medya, ağ cihaz/ARP/history ve HA integration/automation/runtime/update içeriği kaynak/tazelikle anlaşılır UI/Jarvis sonuçlarına bağlanır. Sadece endpoint health veya statik öneri yeterli değil.
+- [ ] **P7-03 — CT140 restore:** Günlük yedek korunur. Last success/age/size anomaly/integrity/off-site/restore taze görünür; L1/L2 uygun periyotta otomatik, L3 disposable kritik servis **start + health** ile düzenli test edilir. Tek sefer SQLite tablo kontrolü Phase 7 kapanışı değildir.
+- [ ] **P7-04 — Guardian/Discord:** Anlamlı gerçek/fixture olayın CT104'e ve kullanıcıya teslimi, kesintide durable spool ve restart sonrası replay, kapsam/son tarama/taranamayan kaynak, süreli yanlış alarm/erteleme geri bildirimi kanıtlanır. Bellek içi bekleme durable teslim değildir.
+- [ ] **P7-05 — gate:** Her alanın production caller, kullanıcı sonucu, source/freshness, failure/unknown ve güvenlik/desktop/mobil kanıtı toplanır. Bunlar geçmeden Phase 7 `CLOSED` denmez.
+
+**Sonraki sıra:** Phase 7 gate kapandıktan sonra Phase 8 manga storage önkoşulu ve gerçek Suwayomi+Komga/okuma/offline/restore; ardından önceki fazlardan açık güvenlik/ürün kapıları ve Phase 9 Tdarr/Frigate/Immich, commit performansı, en son AI kota sayfası ve master final kabul. Manga path'i `/mnt/downloads` yalnız adaydır; mount/UID/quota/backup canlı doğrulanır.
+
+### E. Commit/persistence bekleme süresini optimize et — son bakım işi
+
+Agents’ Room, Evolution Phase 6–8 ve diğer açık operasyon işleri bittikten sonra, AI sayfasından hemen önce ayrı bir bakım işi olarak ele al. Önce `git commit` içindeki hook/imza/ağ beklemelerini, ardından `stage-persistence.sh` ve `verify-session-state` sürelerini ölç. Yalnız kanıtlanan darboğazı düzelt; zorunlu kontrolü kaldırma. Önce/sonra sürelerini ve hata davranışını kaydet. Sıradan commit ve zorunlu persistence kontrolü ise tüm önceki işlerde uygulanmaya devam eder; ertelenen iş yalnız performans optimizasyonudur.
+
+### F. AI Operations Center kota ve kullanım sayfası — en son
+
+Bu sayfanın A0–A6 adımları yukarıdaki kontrol listesinde tanımlıdır. Kullanıcı kararı gereği Agents’ Room, Evolution Phase 6–8 ve önceki açık operasyon/bakım işleri tamamlandıktan sonra uygulanır; araştırma notu hazır olması uygulamayı öne çekmez.
+
+## 3. Karar ve durum kuralları
+
+- Agent Box bireysel terminaller içindir; Agents’ Room ayrı tam ekran ortak konuşma arayüzüdür. İkisi aynı CT100 canonical task/audit altyapısını kullanır.
+- Ortak odanın görev ajanı seçimi Guardian/Fixer rol seçimlerinden bağımsızdır. `None` seçimi çalıştırmayı durdurur.
+- Graphify projection/index katmanıdır; canlı ve canonical kaynaklarla çelişirse canlı/canonical kayıt esas alınır.
+- CT140 backup sonucu ile Command Center görünümü iş türü bazında doğrulanır; farklı çalışmalardan gelen “başarılı” ve “hata” satırları birleştirilmez.
+- Bir işin test scripti geçmesi, kullanıcı arayüzündeki uçtan uca akışın geçtiği anlamına gelmez. Her gate kendi production kanıtını ister.
+
+## 4. Tarihsel durum kayıtları (güncel sıra için üstteki 2026-09-22 denetimini kullan)
+
+| Tarih/saat | İş | Kanıt | Durum | Sıradaki işlem |
+|---|---|---|---|---|
+| 2026-09-21 | F9 Agents’ Room | Foreground dispatcher ile UI-driven 11/11 E2E, üç CLI yanıtı ve bootstrap raporlandı | Operasyonel kabul bekliyor | Kalıcı dispatcher lifecycle, dar izinler ve Guardian/Fixer bağlamı |
+| 2026-09-21 14:55–14:56 | F9 canlı kullanıcı testi | `01M31X3XQ9EDF4B0B861AFV1JS`: taslak kaydı geçti; Claude'a devir sonrası `dispatch_requested`, `pending`, `0/12`, yanıt yok; sol listede eski `None/Taslak` etiketi | Kullanıcı kabulü başarısız/açık | Önce dispatcher ve pending recovery; ardından devir, konuşmacı kimliği, arşivleme ve liste senkronu |
+| 2026-09-21 15:25–15:28 | F9 tekrar canlı test | `01M31YT8K7W6Q2C1ZMC34QWR6G`: ilk Claude yanıtı 10 sn içinde geldi; Claude → Antigravity etiketi/listesi eşleşti; Konuşan yok; arşiv/geri alma ve audit geçmişi görüldü. Devir sonrası mesaj kutudan silindi ama timeline/dispatch oluşmadı. | Kısmi başarı; F9 kullanıcı kabulü açık | Devir sonrası Gönder'in UI/API hatasını çöz ve Antigravity/Codex yanıtını gerçek kullanıcı akışında doğrula |
+| 2026-09-21 | F9 uygulayıcı değişimi | Claude kotası bittiğini kullanıcı bildirdi | İş açık | Antigravity mevcut kod/commit/evidence'i inceleyip yalnız açık Gönder akışını düzeltecek; aynı production göreviyle tekrar test edilecek |
+| 2026-09-21 20:16 UTC | CT140 Plex yedeği | İlk yedek restore testi; tam yeni çalışma başarılı; Drive MD5 eşleşti; `backup_healthy=1`, failed=0; UI uyarısı kayboldu | **KAPANDI** | Sonraki otomatik Pazar koşusunu rutin izleme olarak kaydet |
+| 2026-09-21 | Command Center konu/Prometheus | Kullanıcı PDF ekranları | Açık sorun | F9 UI işi sonrası kök neden incelemesi |
+| 2026-09-21 | Evolution Phase 6 | Başlatılmadı | Bekliyor | Önceki gate'ler ve canonical master |
+| 2026-09-21 | Commit/persistence performansı | F9 v3 çıktısında `git commit` 1m15s boyunca çalışıyor görünüyordu; kök neden henüz ölçülmedi | Açık bakım işi | F9 sonrası aşama bazlı süre ölçümü ve güvenli optimizasyon |
