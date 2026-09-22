@@ -523,6 +523,24 @@ Guardian `None` ise hiçbir AI provider otomatik monitoring/triage görevi almaz
 
 Seçili Guardian veya Fixer unavailable ise başka provider'a otomatik geçilmez; UI ilgili rol için `erişilemiyor` durumunu gösterir ve o role ait işi bekletir. İki seçim ayrı ayrı kalıcı tutulur. Her değişiklik `role`, previous value, new value, actor, timestamp ve correlation_id ile canonical audit store'a append-only event olarak yazılır. UI aktif Guardian ve Fixer'ı, ayrı availability/health durumlarını, çalışma modlarını ve son görevlerini gösterir. Provider veya rol seçimi Phase 5/6 gate'lerini, approval/policy sınırlarını, `secret_ref` kullanımını veya destructive-action kurallarını değiştiremez.
 
+### Fixer execution mode — Manual / Semi-Auto / Full Auto (Guardrailed)
+
+Fixer provider dropdown'undan ayrı, persistent bir **Execution Mode** dropdown bulunacaktır:
+
+- **Manual:** Fixer yalnız root-cause, typed action planı, impact, before-state, verification ve rollback hazırlar. Her production mutation için Discord/admin action plane üzerinden exact kullanıcı onayı gerekir. Onay yoksa execute edilmez.
+- **Semi-Auto:** Yalnız policy'de önceden tanımlı, reversible, düşük riskli ve target-scoped typed action'lar precondition/proof sonrası otomatik yürütülebilir; kullanıcıya başlangıç/sonuç raporu gider. Medium/high/destructive veya belirsiz action exact onay bekler.
+- **Full Auto (Guardrailed):** Policy'nin açıkça otomasyona izin verdiği low ve kanıtlanmış medium-risk typed action'lar approval beklemeden execute→verify→gerekirse rollback yapabilir ve kullanıcıya tam rapor verir. Bu mod unrestricted shell veya sınırsız yetki değildir.
+
+**Her üç modda değişmeyen hard boundary:** deletion/data loss, storage/mount/filesystem, firewall/router/DNS topology, LXC create/delete/resize, package/OS/HA Core upgrade, secret/credential, database migration, irreversible veya blast-radius'i belirsiz action her zaman exact kullanıcı onayı ister. `delete_file`, `remove_queue_item`, `block_release` ve eşdeğer destructive action ajan tool allowlist'ine doğrudan girmez. Policy/audit/target/proof/verification/rollback kaynağı eksikse fail-closed durur.
+
+Execution Mode varsayılanı **Manual**'dır. Semi-Auto veya Full Auto'ya geçiş kullanıcı kimliği, previous/new mode, actor, timestamp, expiry ve policy version ile audit edilir; Full Auto seçimi ayrı confirmation gerektirir. Mode belirli süre için etkinleştirilebilir ve süre sonunda Manual'a döner. Global emergency stop yeni mutation dispatch'ini anında durdurur; in-flight action reconciliation'a alınır.
+
+Guardian actionable sorun bulduğunda stable incident/event/correlation kimliğiyle (1) canonical incident/audit kaydı oluşturur, (2) seçili Fixer'a structured handoff verir ve (3) CT104 üzerinden kullanıcıya Discord incident/thread bildirimi gönderir. Bildirim kaynak, önem, etki, Fixer mode, önerilen/otomatik action, approval gereksinimi ve rollback bilgisini gösterir. Manual'da plan+onay; Semi-Auto'da basit action sonucu veya zor action onayı; Full Auto'da action başlangıç/sonuç/verification/rollback raporu görünür. CT104 down ise durable spool/replay uygulanır; Discord teslimi execution authorization'ın yerine geçmez.
+
+Mode kararı yalnız ayrı policy/executor boundary'de uygulanır; Guardian veya Fixer model çıktısı risk sınıfını düşüremez. Action risk registry her typed action için allowed modes, targets, preconditions, maximum frequency, cooldown, verification ve rollback tanımlar. Aynı target lock, state-drift recheck, idempotency ve circuit breaker zorunludur.
+
+Command Center kullanıcıya Guardian provider, Fixer provider, Execution Mode, global pause/emergency stop, aktif policy version, otomasyona izinli action sayısı, son otomatik action, bekleyen onay, başarısız verification/rollback ve Discord delivery durumunu birlikte gösterir. Unknown/stale policy veya audit kaynağı yeşil/full-auto-ready gösterilmez.
+
 ### Proaktif sistem çapında çalışma — AI sürekli açık terminal değildir
 
 Prometheus/Alertmanager, CT104, Home Assistant ve mevcut normalized health kaynakları hafif ve sürekli gözlem yapar. **Guardian kullanıcıdan tek tek servis adı veya “şuna bak” komutu beklemez.** Bütün homelab kapsamını (Proxmox/CT/service/dependency, storage, media, network/DNS, backup/restore, HA entity/automation/update/repair/notification, AI/agent, Discord ve yeni eklenen servisler) kendi envanterinden keşfeder. İki giriş yolu vardır: (1) yeni actionable event/anlamlı state değişimi/başarısız düzeltme için event-driven triage; (2) event/uyarı üretilmese bile sessiz bozulmaları ve biriken maintenance riskini bulmak için **configurable periyodik genel tarama**. Tarama aralığı ve maliyet bütçesi canlı yük/isteğe göre ayarlanır; bu handoff keyfi saat uydurmaz. Command Center uyarı kartı olayların görünümüdür, tek tetik kaynağı değildir; sayfa yenileme veya aynı kartı açma AI görevi başlatmaz. Sistem envanterine yeni servis eklendiğinde tarama kapsamı güncellenir.
