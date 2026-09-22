@@ -1994,6 +1994,12 @@ Bu tablo “eksik kesinlikle yok” veya “hepsi yapılmamış” iddiası değ
 
 Phase 0–6 ana control-plane foundation sırasıdır. Phase 7 intelligence genişlemelerini bu foundation üzerine taşır; domain'ler bağımsız ilerleyebilir. Phase 8 Manga, ilgili Phase 7 storage/resource/backup prerequisite'lerine bağlıdır. **2026-09-22 itibarıyla aktif iş Phase 7'dir:** önceki `CLOSED` raporu yalnız test/tek sefer ölçüm düzeyinde kaldığı için Phase 7 canlı özellikler tamamlanana dek yeniden açıktır. Phase 8 bundan sonra gelir. Phase 9, Phase 8 sonrası kalan bütün master kapsamın final entegrasyon/kabul fazıdır; daha önceki fazın zorunlu işini ona ertelemek için kullanılamaz. Phase gate kabulü riskli production değişiklikleri için gereken kullanıcı approval'ın yerine geçmez.
 
+**2026-09-22 tam kapsam sıra uzlaştırması:** Aktif execution sırası Phase 7 security closure → Phase 8 Manga → Phase 0 baseline reconciliation → özgün Phase 1, 2, 3, 4, 5 ve 6 açık production acceptance kapıları → Agents’ Room özgün mod/recovery → Phase 9 resource/placement preflight → Tdarr → Frigate → Immich → çapraz security/architecture ve commit-performance → AI Operations Center → §52–53 master final kabulüdür. Phase 0–6 bileşenleri yeniden kurulmaz; yalnız bu master'da açık kalan kabul senaryoları tamamlanır. Archive Phase 1/5 handoff'ları tarihsel evidence'dır.
+
+Phase 8'in tek ürün alanı Manga stack'tir; buna rağmen storage/mount/UID-GID/kota/I/O, tek LXC, Suwayomi+Komga, chapter→reader, desteklenen offline/progress, Discord/Jarvis ve CT140 backup/restore'un tamamını kapsar.
+
+Phase 9 içindeki Tdarr, Frigate ve Immich tek toplu P9-12 mutation'ı değildir. Önce ortak canlı resource/placement/backup preflight yapılır; sonra her ürün bağımsız sub-gate, rollback ve kullanıcı kabulüyle kurulur. Yeni CT yalnız teknik/güvenlik gerekçesi ve canlı bütçeyle açılır; kritik control-plane servisi kullanıcı onayı olmadan kapatılmaz.
+
 ## Phase 0 — Reality & Safety Baseline
 
 **Kapsam:** Canlı authoritative kaynakların, container runtime'larının, mevcut repositories/services, CT104 gateway, CT132 Command Center, provider kullanımının, MCP capabilities, ingress/auth, secrets references, storage topology ve resource budget'ın inspect edilmesi. CT101 stopped ise kayıt açıkça korunur, production dependency varsayılmaz. Canonical handoff/archive düzeni ve 18 AI_RULES HARD RULE mapping hazırlanır. Audit backend seçimi §9/§33 gereksinimleriyle inspect sırasında gerekçelendirilir.
@@ -2217,6 +2223,15 @@ Phase 0–6 ana control-plane foundation sırasıdır. Phase 7 intelligence geni
 - Önce/sonra süre, başarısız commit/retry ve recovery testleriyle kullanıcının hissettiği bekleme azalır. Otomatik `git add -A` veya bütün değişiklikleri tek commit'e zorlama yapılmaz.
 
 ### P9-12 — Tdarr, Frigate ve Immich'in gerçek kurulumu
+
+**P9-12 çalışma sub-gate'leri:**
+
+1. **P9-12A — Ortak preflight:** Güncel CPU/RAM/swap/GPU/accelerator/storage/I/O/network/backup ölçümü, mevcut CT grupları ve placement kararı.
+2. **P9-12B — Tdarr:** Gerçek transcode akışı, media I/O/quality doğrulaması, kullanıcı görünümü, rollback ve backup/restore.
+3. **P9-12C — Frigate:** Kamera/accelerator ve retention bağımlılığı, gerçek event, HA entegrasyonu, storage/failure/restore. Bağımlılık yoksa yalnız bu sub-gate OPEN/BLOCKED kalır.
+4. **P9-12D — Immich:** Gerçek foto/video ve mobil istemci, auth/network, storage/quota, backup ve disposable restore.
+
+Bir sub-gate'in PASS olması diğerini otomatik kapatmaz; üçünün tek commit veya tek resource tahminiyle topluca kurulması yasaktır.
 
 - **Tdarr, Frigate, Immich** için güncel CPU/RAM/swap/GPU/accelerator/storage/I/O/network/backup bütçesi ve mevcut CT bağımlılıkları çıkarılır. Gerekli ise düşük öncelikli CT kapatma veya resource yeniden dağıtma seçeneği etki, geri dönüş ve onayla karara bağlanır; kritik control-plane/backup/monitoring sessizce kapatılmaz.
 - Tdarr gerçek transcode; Frigate gerçek kamera/olay + HA; Immich gerçek fotoğraf/video + mobil örnekleriyle **kurulur ve test edilir**. Her biri uygun mevcut CT grubuna yerleştirilir; yeni LXC yalnız teknik/güvenlik gerekçesiyle açılır. Secret, network, quota, backup/restore ve kullanıcı erişimi tamamlanmadan “kurulu” sayılmaz.
