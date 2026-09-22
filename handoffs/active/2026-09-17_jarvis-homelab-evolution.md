@@ -527,7 +527,7 @@ Seçili Guardian veya Fixer unavailable ise başka provider'a otomatik geçilmez
 
 Fixer provider dropdown'undan ayrı, persistent bir **Execution Mode** dropdown bulunacaktır:
 
-- **Manual:** Fixer yalnız root-cause, typed action planı, impact, before-state, verification ve rollback hazırlar. Her production mutation için Discord/admin action plane üzerinden exact kullanıcı onayı gerekir. Onay yoksa execute edilmez.
+- **Manual:** Fixer yalnız root-cause, typed action planı, impact, before-state, verification ve rollback hazırlar. Her production mutation için CT104 üzerinden Discord `#approvals` kanalında exact kullanıcı onayı gerekir. Onay yoksa execute edilmez.
 - **Semi-Auto:** Yalnız policy'de önceden tanımlı, reversible, düşük riskli ve target-scoped typed action'lar precondition/proof sonrası otomatik yürütülebilir; kullanıcıya başlangıç/sonuç raporu gider. Medium/high/destructive veya belirsiz action exact onay bekler.
 - **Full Auto (Guardrailed):** Policy'nin açıkça otomasyona izin verdiği low ve kanıtlanmış medium-risk typed action'lar approval beklemeden execute→verify→gerekirse rollback yapabilir ve kullanıcıya tam rapor verir. Bu mod unrestricted shell veya sınırsız yetki değildir.
 
@@ -1103,6 +1103,21 @@ Ama gereksiz mikro-kanallar oluşturulmamalıdır.
 `#reports` optional/configurable'dır; sekiz ana operasyon kanalının zorunlu dokuzuncu kanalı değildir. Enable edilmezse aggregate report mevcut uygun kanala policy ile yönlendirilir veya rapor yalnız Command Center/canonical store üzerinden sunulur. Kanal/route seçimi mevcut Discord topology inspect sonucu yapılır.
 
 ---
+
+### Discord approval user experience — primary approval plane
+
+Fixer mutation onaylarının birincil ve varsayılan kullanıcı yüzeyi **Discord `#approvals`** kanalıdır. Command Center onayı ve durumunu mirror edebilir; kullanıcı ayrıca açıkça etkinleştirmedikçe paralel ikinci approval authority olmaz.
+
+- Guardian actionable olayı canonical incident olarak kaydeder ve `#incidents` altında stable correlation thread'i açar.
+- Fixer planı onay gerektiriyorsa CT104 aynı incident/correlation kimliğiyle `#approvals` kanalına signed approval card gönderir; incident thread'ine approval mesajının bağlantısı düşer.
+- Kart exact action, target, neden, risk/severity, beklenen etki, before-state, verification, rollback, mode, expiry ve request/plan digest gösterir.
+- Butonlar en az `Bir Kez Onayla`, `Reddet`, `Detay`, `Ertele` içerir. Onay yalnız configured owner Discord user ID/role için geçerlidir; başka kullanıcı, expired nonce, replay, değiştirilmiş plan/target veya state drift reddedilir.
+- High-impact/destructive/topology/secret/upgrade action'da ilk buton ikinci bir Discord modal/ephemeral confirmation açar; kullanıcı exact target ve etkiyi yeniden görmeden execution başlamaz. Discord hesabı tek başına sınırsız yetki sayılmaz; CT104 signed nonce/HMAC veya eşdeğer server-side verifier, immutable digest ve canlı before-state recheck zorunludur.
+- Manual mode her mutation için bu akışı kullanır. Semi-Auto yalnız allowlisted low-risk action'ı otomatik yapar; diğerlerini gönderir. Full Auto (Guardrailed) yalnız policy-approved low/medium action'ı otomatik yapar; hard-boundary action'ları yine `#approvals`a gönderir.
+- Onay/ret/timeout, execution başlangıcı, verification, rollback ve final sonuç aynı incident thread'ine yazılır; başarılı değişiklik özeti `#changes`, AI çalışma özeti gerektiğinde `#ai-ops` kanalına route edilir.
+- CT104/Discord ulaşılamazsa approval verilemez ve mutation fail-closed bekler. Bildirim durable spool'a alınır; replay sonrası aynı request duplicate execution üretmez.
+
+Mevcut kanal isimleri, ID'leri, permission ve bot yetkileri önce inspect edilir. `#incidents`, `#changes`, `#ai-ops`, `#approvals` hedef mimaridir; mevcut çalışan kanallar aynı işlevi farklı isimle sağlıyorsa kullanıcı onayı olmadan rename/reorganization yapılmaz. Eksik `#approvals` işlevi için önce proposed topology, etkilenen permission'lar ve rollback kullanıcıya sunulur.
 
 # 29. DISCORD THREAD MODEL
 
