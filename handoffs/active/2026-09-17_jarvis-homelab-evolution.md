@@ -4,7 +4,7 @@
 **Time:** 16:52 TRT  
 **From agent:** USER
 **To agent:** Claude & Codex
-**Status:** Master scope active — Phase 7 OPEN; Phase 8/9 not started. This status is a document tracker, not independent live verification.
+**Status:** Master scope active — Phase 7 CLOSED (5/5 PASS); Phase 8 ACTIVE NEXT / not started; Phase 9 not started. Jarvis remote closure `9723bc0` independently verified.
 
 ---
 # JARVIS HOMELAB EVOLUTION
@@ -2123,6 +2123,8 @@ Phase 9 içindeki Tdarr, Frigate ve Immich tek toplu P9-12 mutation'ı değildir
 **2026-09-22 `174bd4b` current secret isolation follow-up:** Jarvis remote `main` HEAD `174bd4baaf5ae742cf67afbbbfd1aa262d2078bb` bağımsız doğrulandı. Current repo script/verifier eski Firefly credential literal'ını taşımaz; `scripts/ct140-backup.sh` SHA256 `b26f9124ebbee5a63c16a619f4d7486343e2e134548cb872f7de8f1ed494dac8` raporla eşleşir ve verifier direct runtime↔repo SHA/zero-diff uygular. CT140 runtime secret'ın root-only mode 0600 `/etc/backup.env` içinde olduğu, missing/insecure env negatif testleri ve CT133 caller uygulayıcı evidence'ıdır; Cloud CT140'a erişemedi. `ccf208a` commit history'sindeki eski değer hâlâ geçerli olabileceğinden Phase 7 security gate OPEN/BLOCKED kalır. Önerilen yol credential rotation + CT101 Firefly/CT140 backup health; force-push history rewrite yalnız kullanıcının açık seçimiyle.
 
 **2026-09-22 kullanıcı kararı — history risk accepted:** Kullanıcı `ccf208a` geçmişindeki eski Firefly credential'ın kalmasını, parola rotation ve history rewrite yapılmamasını seçti. Current CT140/repository secret isolation korunur; history exposure residual risk olarak kabul edilir. Phase 7 final closure için bu kararın Jarvis canonical master/evidence/checkpoint/todo'ya yazılması ve remote HEAD doğrulanması beklenir.
+
+**2026-09-22 Phase 7 final closure verification:** Jarvis remote `main` HEAD `9723bc01eb8163713687dedeed24f1e1d1fd0c7c` bağımsız doğrulandı. Phase 7 evidence, Jarvis master, checkpoint ve todo/completed P7-01–P7-05 `CLOSED (5/5 PASS)` durumunda eşleşir; `ccf208a` history exposure açıkça user-accepted residual risk'tir. Phase 8 Manga henüz başlamadı ve sıradaki aktif fazdır.
 
 **Phase Gate / acceptance criteria:**
 
