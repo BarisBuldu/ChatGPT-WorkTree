@@ -295,10 +295,38 @@ Canlı kaynak kullanıldıysa hangi kaynakların kullanıldığını belirt.
 
 ## ChatGPT WorkTree repository synchronization
 
-- Bu proje için kalıcı cloud çalışma ağacı `BarisBuldu/ChatGPT-WorkTree` GitHub repository'sidir.
-- Yeni Claude, Codex veya Antigravity çıktısı; canlı sistem kanıtı; kullanıcı kararı; gate sonucu ya da görev sırası mevcut durumu maddi olarak değiştirdiğinde ilgili repository belgeleri aynı çalışma turunda güncellenmelidir.
+- Bu Cloud Work thread'i Evolution boyunca tek ana Work thread'idir. `BarisBuldu/ChatGPT-WorkTree` GitHub repository'si kalıcı cloud çalışma ağacı ve canonical project state/source of truth'tur. Canlı production sistemi runtime gerçeği için ayrıca doğrulanır; repository kaydı production kanıtının yerine geçmez.
+- Production sisteminde, agent'larda, configuration'da, servislerde, infrastructure'da veya Evolution scope'unda değişiklik yapıldığında; ya da Claude, Codex, Antigravity gibi dış agent'lardan yeni sonuç veya kanıt geldiğinde ilgili canonical repository belgeleri aynı çalışma döngüsünde güncellenmelidir.
 - `handoffs/active/2026-09-17_jarvis-homelab-evolution.md` canonical master olarak korunur. Tarihsel Phase 1/5 kayıtları yeniden aktif talimat yapılmaz.
 - Canlı CT100 canonical dosyası ile repository mirror'u farklıysa fark açıkça belirtilir; özet çıktıdan canonical master içeriği tahmin edilmez. Önce exact dosya veya commit içeriği alınır, sonra mirror güncellenir.
-- `CLOSED`, `PASS`, commit veya test sayısı tek başına production teslim kanıtı değildir. Repository güncellemelerinde uygulayıcı raporu, bağımsız doğrulama ve canlı authoritative durum ayrı etiketlenir.
+- `DONE`, `PASS`, `CLOSED`, commit veya test sayısı tek başına production teslim kanıtı değildir. Repository güncellemelerinde uygulayıcı raporu, bağımsız doğrulama ve canlı authoritative durum ayrı etiketlenir.
 - `sources/` read-only kalır. Force-push, unrelated dosya değişikliği, canonical geçmiş silme veya açık gate'i kanıtsız kapatma yapılmaz.
 - Her repository yazımından önce güncel `main` durumu kontrol edilir; concurrent değişiklik varsa overwrite edilmez, reconcile edilir.
+- Mevcut authoritative repository yapısı ve canonical dosya adları kullanılır. Yeni paralel handoff/state sistemi oluşturulmaz.
+
+### Zorunlu completion gate
+
+Bir iş `DONE`, `PASS`, `CLOSED` veya tamamlandı olarak raporlanmadan önce aşağıdaki adımların tamamı geçmelidir:
+
+1. Production'daki gerçek durum doğrulanır.
+2. İlgili canonical handoff, state, progress ve evidence dosyaları gerçek durumla eşitlenir.
+3. Repository working tree değişiklikleri kontrol edilir.
+4. Gerekli değişiklikler commit edilir.
+5. Commit GitHub remote'a push edilir.
+6. Commit'in hedef remote branch/HEAD üzerinde gerçekten bulunduğu doğrulanır.
+7. Ancak bundan sonra iş tamamlandı olarak raporlanır.
+
+Commit veya push başarısızsa, credential/yetki yoksa ya da remote doğrulaması yapılamıyorsa iş tamamlanmış sayılmaz; açıkça `BLOCKED` bırakılır. Production ile repository arasında sessiz drift kabul edilmez. Yalnız production değişikliği repository eşitlenmeden tamamlanmış iş değildir; yalnız repository dokümantasyonu da production değişikliğinin kanıtı değildir.
+
+Canonical state, thread veya environment kaybında yeni bir agent'ın yalnız repository'yi clone ederek Evolution'ın mevcut durumunu, tamamlanan işleri, açık işleri, blocker'ları ve kanıtları yeniden kurmasına yeterli olmalıdır.
+
+### Önemli çalışma sonu raporu
+
+Her önemli çalışma sonunda kısa olarak şunlar raporlanır:
+
+- Production change
+- Canonical files updated
+- Commit SHA
+- Push status
+- Remote verification
+- Remaining OPEN/BLOCKED items
