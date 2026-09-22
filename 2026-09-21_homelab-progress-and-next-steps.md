@@ -129,6 +129,19 @@ Bu bölüm her yeni kanıtta güncellenecek. `[x]` paylaşılan çıktıda tamam
 
 ## 2. Şu anki öncelik sırası
 
+### Canonical aktif sıra — 2026-09-22 tam kapsam uzlaştırması
+
+1. Phase 7: yalnız Firefly/CT140 secret exposure ve P7-05 tekrar gate'i; işlevsel P7 parçaları yeniden kurulmaz.
+2. Phase 8: yalnız Manga ürün alanı, fakat storage→LXC→Suwayomi/Komga→reader/offline/progress→Discord/Jarvis→backup/restore tam akışı.
+3. Phase 0 baseline reconciliation; ardından Phase 1 event/audit, Phase 2 Discord/approval, Phase 3 Command Center/watchdog, Phase 4 Brain/history, Phase 5 Guardian/Fixer read-only ve Phase 6 controlled remediation açık acceptance kapıları kendi fazlarında tamamlanır.
+4. Agents’ Room temel UI yeniden yapılmaz; özgün modlar ve CT102 recovery/fencing tamamlanır.
+5. Phase 9 önce resource/placement preflight yapar; Tdarr, Frigate ve Immich üç ayrı sub-gate olarak sırayla kurulur ve her biri bağımsız backup/restore ve kullanıcı kabulü ister.
+6. Secrets/18 guardrail/audit/architecture ve commit-persistence optimizasyonu tamamlanır.
+7. AI Operations Center en son ürün işi olarak uygulanır.
+8. §52–53 tek master final kabulü yapılır.
+
+Tam §1–53 eşlemesi `2026-09-22_master-handoff-scope-audit.md` içindeki “Canonical gereksinim → step eşlemesi” tablosudur. Archive Phase 1/5 handoff'ları tarihsel evidence'dır.
+
 ### A. Agents’ Room — temel kullanıcı akışı teslim edildi; özgün mod/recovery kapısı açık
 
 Uygulayıcı 5/5 gate PASS, production commit/persistence ve üç ajanlı gerçek akışı raporladı. Kullanıcı gerçek Agents’ Room görevinden üretilen v3 handoff'u paylaşıp handoff akışını doğruladı. Temel kullanıcı akışını tekrar kurma. Ancak özgün modların her biri, CT102 kaybında replay/fencing ve Guardian/Fixer rol bağlamı hedefli kabul kanıtı ister; Parallel master gate bunlar geçmeden tam kapanmış sayılamaz.
@@ -173,7 +186,7 @@ Phase 7'nin eski `dc6d9d4` 6/6 ölçümü yalnız tek seferlik testti. Sonraki A
 
 - [ ] **Phase 7 credential containment — teknik iş raporlandı, remote gate eksik:** Kullanıcı 2026-09-22'de Sonoff/eWeLink şifresini değiştirmemeyi ve kimsenin görmediğini varsayarak yalnız dış sızıntıyı engellemeyi açıkça seçti. Rotation zorunlu gate değildir; kabul edilen risk olarak kaydedilir. `secrets.yaml`/`!secret`, mode 600, config check/restart ve entegrasyon sağlığı uygulayıcı tarafından raporlandı; altı public endpoint'te redaction Cloud tarafından bağımsız doğrulandı; private CT140'ın web/ingress yolu olmadığı raporlandı. Gerçek Jarvis/webapp commit SHA ve remote HEAD kanıtı gelince completion gate kapanır.
 
-**Sonraki sıra:** Önce credential containment ve Agy commit/push/remote kanıtı; sonra P7-01 için DNS mimarisi kullanıcı kararı ve Deco değişikliği; P7-03 gerçek kritik servis restore; P7-02/P7-04 eksik etki/failure kanıtları; en son P7-05 toplu gate. Kullanıcının açık kararı gereği credential rotation yapılmaz ve bu tercih tek başına Phase 7'yi bloke etmez. Phase 7 kapandıktan sonra Phase 8 manga storage önkoşulu ve gerçek Suwayomi+Komga/okuma/offline/restore; ardından önceki fazlardan açık güvenlik/ürün kapıları ve Phase 9 Tdarr/Frigate/Immich, commit performansı, en son AI kota sayfası ve master final kabul. Manga path'i `/mnt/downloads` yalnız adaydır; mount/UID/quota/backup canlı doğrulanır.
+**Sonraki sıra:** Yukarıdaki canonical aktif sıra ve `2026-09-22_master-handoff-scope-audit.md` eşlemesi uygulanır. Phase 7 secret gate'i kapanmadan Phase 8; Phase 8 kapanmadan özgün Phase 0–6 acceptance turu; bunlar bitmeden Phase 9 yeni CT kurulumları başlatılmaz.
 
 ### E. Commit/persistence bekleme süresini optimize et — son bakım işi
 
