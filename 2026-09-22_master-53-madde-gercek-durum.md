@@ -6,6 +6,8 @@
 
 **2026-09-22 kullanıcı kararı:** Eski Firefly credential'ın Git history'de kalması, rotation/history rewrite yapılmaması accepted residual risk'tir. Current runtime/HEAD containment korunur. Jarvis canonical sync remote doğrulanana kadar Phase 7 final completion bekler.
 
+**2026-09-22 Phase 7 closure:** Jarvis remote HEAD `9723bc01eb8163713687dedeed24f1e1d1fd0c7c` doğrulandı; P7-01–P7-05 CLOSED. Phase 8 Manga ACTIVE NEXT ve henüz NOT IMPLEMENTED.
+
 **Tarih:** 2026-09-22. **Temel belge:** `handoffs/active/2026-09-17_jarvis-homelab-evolution.md` (güncel sürüm; satır sayısı değişebilir). **Karşılaştırma:** Claude'un `system-integration-audit-2026-09-22.md` v2 canlı runtime raporu ve kullanıcının paylaştığı faz/Agents’ Room çıktıları. Bu oturumda CT'lere doğrudan bağlanılmadı; aşağıdaki canlı durum Claude raporuna dayanır. `Kanıt yok` yapılan işin kesinlikle bulunmadığı anlamına gelmez. `İsteğe bağlı` master'ın zorunlu kurulumu değildir. Bu belge canonical master'ı değiştirmez.
 
 **Durum anahtarı:** **CANLI** production çalışan kod yolu/UI; **KISMİ** bir bölümü canlı, bir bölümü eksik/kanıtsız; **TEST** kütüphane + test veya tek sefer ölçüm, günlük production yolu yok; **YOK** kurulum raporlanmadı veya Claude canlı incelemede bulmadı; **KARAR/KURAL** mimari ve güvenlik şartı, servis kurulumu değil; **ERTELENDİ** master özellikle şimdi kurma diyor. Durum satırındaki ayrıntı ve kanıt seviyesi önemlidir.
@@ -64,7 +66,7 @@
 | 50 Agent collaboration loop | Claude plan→Codex implement→Claude review→Codex fix→test→consensus→audit | **KISMİ.** Üç ajan mesajlaşması/dispatch ve audit canlı | Gerçek implementation-loop görev kanıtı; yalnız konuşma yeterli değil |
 | 51 18 guardrail | Tamamı AI_RULES HARD RULE + enforcement + negative test | **KISMİ.** Mapping ve bazı policy-denial testleri raporlandı | Her 18 madde için owner/enforcement/test matrisi; üretim yollarında negatif test |
 | 52 Completion | System/incident/failure/room/Discord/history/repeat/backup senaryoları | **AÇIK.** Birçok alt bileşen var | Tek uçtan uca final kabul paketi; özellikle production control loop, tekrarlayan incident ve L3 backup |
-| 53 Phase gates | 0–9 + Parallel dependency sırası; gate evidence kapsamı azaltmaz | **PHASE 7 FUNCTIONAL PASS; COMPLETION SYNC PENDING.** Current secret containment geçer, history exposure kullanıcı tarafından kabul edildi. | Kararı Jarvis canonical repo'ya commit/push/remote verify et → Phase 7 CLOSED → Phase 8 Manga → P0 reconciliation → P1–P6 acceptance → Agents’ Room → P9 sub-gates → AI quota → §52 final. |
+| 53 Phase gates | 0–9 + Parallel dependency sırası; gate evidence kapsamı azaltmaz | **PHASE 7 CLOSED; PHASE 8 ACTIVE NEXT.** Jarvis `9723bc0` remote/canonical sync doğrulandı; history exposure accepted residual risk. | Phase 8 Manga → P0 reconciliation → P1–P6 acceptance → Agents’ Room → P9 preflight/Tdarr/Frigate/Immich/hardening → AI quota → §52 final. |
 
 **Ek A/provider eki:** Master'ın sonundaki Google Antigravity provider contract, yinelenen “53” numarası yerine Ek A olarak düzenlenmiştir. `agy` giriş noktası, Gemini CLI'dan ayrım, üç adapter ve read-only sınırı Agents’ Room/Phase 5 raporlarında uygulanmış görünür. Gerçek CLI capability, permission ve rol başına kullanım/maliyet alanları ayrıca kanıtlanmalıdır. Numara düzeltmesi provider kapsamını değiştirmez.
 
