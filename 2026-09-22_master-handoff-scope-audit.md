@@ -1,5 +1,7 @@
 # Jarvis Homelab Evolution — master kapsam / kalan iş denetimi
 
+**2026-09-22 Phase 7 closure verified:** Jarvis `main` HEAD `9723bc01eb8163713687dedeed24f1e1d1fd0c7c`; Phase 7 canonical evidence/master/checkpoint/todo-completed uyumu bağımsız GitHub kontrolünde geçti. P7-01–P7-05 CLOSED; historical Firefly credential exposure user-accepted residual risk. Phase 8 henüz başlamadı ve sıradaki aktif fazdır.
+
 **2026-09-22 kullanıcı risk kararı:** Kullanıcı `ccf208a` Git geçmişindeki eski Firefly credential'ın kalmasını, rotation ve history rewrite yapılmamasını açıkça kabul etti. Current runtime/repository HEAD secretsizdir; history exposure accepted residual risk'tir. Jarvis canonical state bu kararla commit/push/remote verified olmadan Phase 7 completion sync kapanmaz.
 
 **2026-09-22 `174bd4b` current-secret containment denetimi:** Jarvis remote `main` HEAD `174bd4baaf5ae742cf67afbbbfd1aa262d2078bb`; current `scripts/ct140-backup.sh` SHA256 `b26f9124ebbee5a63c16a619f4d7486343e2e134548cb872f7de8f1ed494dac8` raporla eşleşti. Current backup script ve verifier eski credential literal'ını taşımaz; direct SHA/0-diff doğrulaması kodda bulunur. CT140 `/etc/backup.env` mode 0600, fail-closed negatif test ve Node-RED caller kanıtı uygulayıcıya aittir çünkü Cloud yerel CT140'a erişemez. Tek kalan Phase 7 blocker'ı `ccf208a` Git history exposure'dır. Önerilen remediation credential rotation ve ardından CT101 Firefly/CT140 backup health; history rewrite force-push ancak kullanıcı açıkça seçerse.
@@ -68,8 +70,8 @@ Bu sıra canonical master §§1–53, 53-madde matrisi, güncel progress, Agents
 
 | Sıra | Aktif step | Master kapsamı | Kapanış koşulu |
 |---|---|---|---|
-| A | **Phase 7 güvenlik kapanışı** | §§34–41, 46, 53 | Firefly secret runtime/repo/verifier'dan çıkar; history exposure kullanıcı kararıyla çözülür; P7-01–P7-04 kanıtları korunur ve P7-05 yeniden geçirilir. |
-| B | **Phase 8 Manga** | §§42–44, 46 | Tek Manga LXC; storage/mount/UID-GID/kota/I/O gate; Suwayomi+Komga; chapter→download→library→reader; web/iPhone/iPad, desteklenen offline/progress, Discord/Jarvis, CT140 backup ve restore. Tek ürün alanı Manga'dır fakat yalnız uygulama kurulumu değildir. |
+| A | **Phase 7 — COMPLETED** | §§34–41, 46, 53 | `9723bc0` ile 5/5 PASS; current scripts secretsiz, history exposure accepted residual risk. |
+| B | **Phase 8 Manga — ACTIVE NEXT** | §§42–44, 46 | Tek Manga LXC; storage/mount/UID-GID/kota/I/O gate; Suwayomi+Komga; chapter→download→library→reader; web/iPhone/iPad, desteklenen offline/progress, Discord/Jarvis, CT140 backup ve restore. Tek ürün alanı Manga'dır fakat yalnız uygulama kurulumu değildir. |
 | C | **Phase 0 baseline reconciliation** | §§1–4, 45–46, 51, 53 | Topology, canonical active/archive, reality, resource/sandbox ve 18 guardrail baseline doğrulanır; yeniden kurulum yapılmaz. |
 | D | **Phase 1 event & audit durability** | §§30–31, 33 | Producer restart, spool/backpressure/dead-letter/ambiguous delivery, schema identity, audit index rebuild/restore/retention. |
 | E | **Phase 2 Discord & approval** | §§14, 17, 26–32 | Direct webhook cutover, CT104 bağımsız failure yolu, thread/replay, aggregate report config ve actor/action/target/impact/expiry bağlı onay güvenliği. |
@@ -94,7 +96,7 @@ Bu sıra canonical master §§1–53, 53-madde matrisi, güncel progress, Agents
 
 Bu checklist uygulayıcı raporuna dayanır; her `[ ]` üretim kanıtı görülene kadar açık kalır. Daha önce geçen tek seferlik testler yeniden tam yedek veya ikinci servis kurma gerekçesi değildir.
 
-### Şimdi: Phase 7 — OPEN
+### Phase 7 — CLOSED; şimdi Phase 8 Manga
 
 - [x] **P7-00 — bildirilen ilerleme:** CT100 Guardian scanner/timer (15 dk), bazı domain sinyalleri, webapp Translator canlı runtime ve masaüstü/mobil UI testi raporlandı (`3c52e23`, `bae5470`). Çağıran/servis/tazelik kanıtı hedef ortamda yeniden okunur.
 - [ ] **P7-01 — CT124 adblock:** Mevcut CT124 ve Deco DHCP/DNS'i inspect et; uygun filtreleme servisini kur, istemcilerin gerçekten kullandığını sorgu verisiyle göster. Public fallback'in filtrelemeyi sessiz bypass etmediğini, outage/failover ve rollback'i test et. Router değişikliği gerekiyorsa somut ayarı ve etkisini kullanıcıya göster. Bu zorunlu Phase 7 kapısıdır.
