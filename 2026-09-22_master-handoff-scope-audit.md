@@ -58,6 +58,34 @@ Eski Phase 0–7 ve Agents’ Room kapanışları raporlandı; güncel Phase 7 O
 | §42–44 / Phase 8 manga | `/mnt/downloads` adayı ve tek LXC/100 GB budget önerisi Phase 7'de raporlandı; manga kurulumu raporlanmadı. | Aşağıdaki M1–M3 kapıları ve sonra Suwayomi + Komga/reader/download/notification/restore akışı açık. Yol yalnız boş alana göre kesinleştirilmez. |
 | §52 master completion | Faz bazlı testler ve bazı kullanıcı testleri var. | Tam sistem, incident, failed fix/rollback, shared implementation loop, Discord, history, repeated incident ve backup senaryoları tek final evidence matrisiyle karşılaştırılmalı. “Phase 0–8 CLOSED” tek başına master final kabulü değildir. |
 
+## Canonical gereksinim → step eşlemesi ve gerçek yürütme sırası
+
+Bu sıra canonical master §§1–53, 53-madde matrisi, güncel progress, Agents’ Room track ve AI quota araştırmasının birlikte uzlaştırılmış halidir. Archive altındaki Phase 1/5 handoff'ları yalnız tarihsel evidence'dır; yeniden uygulanacak talimat değildir. Mevcut çalışan bileşen tekrar kurulmaz; her adım yalnız eksik production acceptance'ı kapatır.
+
+| Sıra | Aktif step | Master kapsamı | Kapanış koşulu |
+|---|---|---|---|
+| A | **Phase 7 güvenlik kapanışı** | §§34–41, 46, 53 | Firefly secret runtime/repo/verifier'dan çıkar; history exposure kullanıcı kararıyla çözülür; P7-01–P7-04 kanıtları korunur ve P7-05 yeniden geçirilir. |
+| B | **Phase 8 Manga** | §§42–44, 46 | Tek Manga LXC; storage/mount/UID-GID/kota/I/O gate; Suwayomi+Komga; chapter→download→library→reader; web/iPhone/iPad, desteklenen offline/progress, Discord/Jarvis, CT140 backup ve restore. Tek ürün alanı Manga'dır fakat yalnız uygulama kurulumu değildir. |
+| C | **Phase 0 baseline reconciliation** | §§1–4, 45–46, 51, 53 | Topology, canonical active/archive, reality, resource/sandbox ve 18 guardrail baseline doğrulanır; yeniden kurulum yapılmaz. |
+| D | **Phase 1 event & audit durability** | §§30–31, 33 | Producer restart, spool/backpressure/dead-letter/ambiguous delivery, schema identity, audit index rebuild/restore/retention. |
+| E | **Phase 2 Discord & approval** | §§14, 17, 26–32 | Direct webhook cutover, CT104 bağımsız failure yolu, thread/replay, aggregate report config ve actor/action/target/impact/expiry bağlı onay güvenliği. |
+| F | **Phase 3 Command Center & observability** | §§5–6, 17, 35 | Read-only/admin isolation, source/freshness/unknown, Jarvis+Prometheus ve CT104/Discord outage görünümü. |
+| G | **Phase 4 System Brain & incident memory** | §§7–9 | Çok kaynaklı Jarvis sorguları, dependency/provenance, incident lifecycle, repeated incident retrieval ve index rebuild. |
+| H | **Phase 5 Guardian/Fixer read-only** | §§10–11 read-only | Provider bağımsız Guardian/Fixer/None, quota/failure, role-specific MCP/HA context ve mutation-bypass reddi production caller'da doğrulanır. |
+| I | **Phase 6 controlled remediation** | §§11–16, 49 | Guardian→Fixer→policy→exact approval→typed executor→verification→rollback/audit/UI; fail-closed ve mutation default-off. |
+| J | **Agents’ Room özgün kabulü** | §§18–25, 50 | Temel UI yeniden kurulmaz; ONLY×3, Dual, Review, Debate, Consensus, Implementation Loop, agent questions, CT102 replay/fencing ve limitler gerçek görevle doğrulanır. |
+| K1 | **Phase 9 preflight ve mimari bütçe** | §§45–48, 51 | Güncel CPU/RAM/swap/GPU/accelerator/storage/I/O/network/backup kapasitesi; CT placement ve dependency planı. Kritik CT sessizce kapatılmaz. |
+| K2 | **Phase 9 Tdarr sub-gate** | §47 | Gerçek transcode akışı, storage/I/O, rollback, kullanıcı yüzeyi ve backup/restore. |
+| K3 | **Phase 9 Frigate sub-gate** | §47 | Kamera/accelerator bağımlılığı, gerçek event, HA entegrasyonu, retention/storage ve failure/restore. Bağımlılık yoksa OPEN/BLOCKED. |
+| K4 | **Phase 9 Immich sub-gate** | §47 | Gerçek foto/video + mobil akış, storage/quota, network/auth, backup ve disposable restore. |
+| K5 | **Phase 9 çapraz hardening ve commit performansı** | §§34, 48–51 / P9-10–11 | Secrets/guardrail/audit/architecture matrisi ve ölçümlü commit-persistence optimizasyonu. Yerel LLM/oyun sunucusu kapsam dışı. |
+| L | **AI Operations Center** | P9-13 + AI quota belgesi | En son ürün işi; yalnız güvenilir/authorized usage ve freshness, kaynak yoksa unknown. |
+| M | **Tek master final kabulü** | §§52–53 / P9-14 | System, incident, failed fix/rollback, Agents’ Room loop, Discord outage/replay, history/repeat ve backup/restore tek matriste PASS; canonical commit/push/remote verified. |
+
+**Bağımlılık sırası:** A → B → C → D → E → F → G → H → I → J → K1 → K2 → K3 → K4 → K5 → L → M. Güvenli bağımsız evidence paralel toplanabilir; zorunlu açık daha sonraki faz etiketiyle kapatılmaz. Riskli mutation için sıra kullanıcı approval'ının yerine geçmez.
+
+**Phase 9 yapı düzeltmesi:** Master phase numarası korunur; fakat yeni CT ve ayrı failure-domain isteyen Tdarr, Frigate ve Immich tek toplu kurulum olarak çalıştırılmaz. P9-12, K1–K4 bağımsız sub-gate'lerine ayrılır; her biri kendi resource/placement/backup/restore/kullanıcı kabulünü geçer.
+
 ## Yapılacak adımlar — güncel sıra ve kapılar
 
 Bu checklist uygulayıcı raporuna dayanır; her `[ ]` üretim kanıtı görülene kadar açık kalır. Daha önce geçen tek seferlik testler yeniden tam yedek veya ikinci servis kurma gerekçesi değildir.
